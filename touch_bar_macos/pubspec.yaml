@@ -1,0 +1,22 @@
+name: touch_bar_macos
+description: macOS implementation of the touch_bar plugin.
+version: 0.0.1
+homepage:
+
+flutter:
+  plugin:
+    platforms:
+      macos:
+        pluginClass: TouchBarPlugin
+        fileName: touch_bar_macos.dart
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  pedantic: ^1.9.0
