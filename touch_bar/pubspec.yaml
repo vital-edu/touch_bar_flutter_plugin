@@ -1,0 +1,30 @@
+name: touch_bar
+description: A Flutter plugin to interact with the touch bar of supported models of MacBook Pro, providing dynamic contextual controls.
+homepage: https://github.com/vital-edu/touch_bar_flutter_plugin/touch_bar
+version: 0.0.1
+
+flutter:
+  plugin:
+    platforms:
+      macos:
+        default_package: touch_bar_macos
+
+dependencies:
+  flutter:
+    sdk: flutter
+  touch_bar_platform_interface: ^0.0.1
+  # The design on https://flutter.dev/go/federated-plugins was to leave
+  # this constraint as "any". We cannot do it right now as it fails pub publish
+  # validation, so we set a ^ constraint.
+  # TODO(vital_edu): Revisit this (either update this part in the  design or the pub tool).
+  # https://github.com/flutter/flutter/issues/46264
+  touch_bar_macos: ^0.0.1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  plugin_platform_interface: ^1.0.0
+  pedantic: ^1.8.0
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.10.0"
