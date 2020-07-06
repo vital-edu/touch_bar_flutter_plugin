@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:touch_bar/touch_bar.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,10 +29,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  TouchBar bar;
 
   void _incrementCounter() {
     setState(() {
       _counter++;
+      bar = TouchBar(children: [
+        LabelItem(identifier: 'myIdentify', label: "Hello $_counter"),
+      ]);
+      setTouchBar(bar);
     });
   }
 
