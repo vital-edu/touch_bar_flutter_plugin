@@ -37,7 +37,7 @@ abstract class TouchBarPlatform extends PlatformInterface {
 
   /// Sets the touchBar for the current window.
   /// Specifying `null` clears the touch bar.
-  Future<bool> setTouchBar(AbstractTouchBar touchBar) {
+  Future<void> setTouchBar(AbstractTouchBar touchBar) {
     throw UnimplementedError('setTouchBar() has not been implemented.');
   }
 }
