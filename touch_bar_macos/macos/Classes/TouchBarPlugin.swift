@@ -8,7 +8,7 @@ import AppKit
 
 @available(macOS 10.12.2, *)
 public class TouchBarPlugin: NSObject, FlutterPlugin, NSTouchBarDelegate, NSApplicationDelegate {
-  var flutterResult: FlutterMethodCall?;
+  var items: NSArray?
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
@@ -22,8 +22,12 @@ public class TouchBarPlugin: NSObject, FlutterPlugin, NSTouchBarDelegate, NSAppl
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
     case "setTouchBar":
-      self.flutterResult = call
+      guard let touchBarJson = (call.arguments as? NSDictionary)?["touch_bar"] as? NSDictionary,
+        let children = touchBarJson["children"] as? NSArray else {
+        return result("FlutterUnexpectedArguments")
+      }
 
+      self.items = children
       NSApp.keyWindow!.touchBar = makeTouchBar();
     default:
       result("FlutterMethodNotImplemented")
@@ -37,17 +41,38 @@ public class TouchBarPlugin: NSObject, FlutterPlugin, NSTouchBarDelegate, NSAppl
   func makeTouchBar() -> NSTouchBar? {
     let newTouchBar = NSTouchBar();
     newTouchBar.delegate = self
-    newTouchBar.defaultItemIdentifiers = [NSTouchBarItem.Identifier("myTest")]
+
+    let identifiers = (0...((self.items?.count ?? 0) - 1)).map {
+      NSTouchBarItem.Identifier(String($0))
+    }
+
+    newTouchBar.defaultItemIdentifiers = identifiers
     return newTouchBar
   }
 
   public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
     let item = NSCustomTouchBarItem(identifier: identifier)
 
-    guard let flutterResult = flutterResult else { return nil }
-    let label: String = (flutterResult.arguments as? String) ?? "failed to parse"
+    guard
+      let itemData = self.items?.object(at: Int(identifier.rawValue) ?? 0) as? NSDictionary,
+      let label = itemData["label"] as? String else {
+      return nil
+    }
 
-    item.view = NSTextField(labelWithString: label)
+    let accessibilityLabel = itemData["accessibilityLabel"] as? String
+
+    let textField = NSTextField(labelWithString: label)
+    textField.setAccessibilityLabel(accessibilityLabel)
+
+    if let color = itemData["color"] as? NSDictionary,
+        let red = color["red"] as? CGFloat,
+        let green = color["green"] as? CGFloat,
+        let blue = color["blue"] as? CGFloat,
+        let alpha = color["alpha"] as? CGFloat {
+        textField.textColor = NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha)
+    }
+
+    item.view = textField
     return item;
   }
 }

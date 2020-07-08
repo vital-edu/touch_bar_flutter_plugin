@@ -35,7 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter++;
       bar = TouchBar(children: [
-        LabelItem(identifier: 'myIdentify', label: "Hello $_counter"),
+        TouchBarLabel('Red Label', textColor: Colors.red),
+        TouchBarLabel('Blue Label', textColor: Colors.blue),
+        TouchBarLabel('Counter: $_counter', textColor: Colors.white),
       ]);
       setTouchBar(bar);
     });

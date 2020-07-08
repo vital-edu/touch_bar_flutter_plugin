@@ -4,7 +4,6 @@
 
 import 'package:flutter/services.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar.dart';
-import 'package:touch_bar_platform_interface/models/touch_bar_item.dart';
 import 'package:touch_bar_platform_interface/touch_bar_platform_interface.dart';
 
 const MethodChannel _channel = MethodChannel('plugins.flutter.io/touch_bar');
@@ -15,12 +14,8 @@ class TouchBarPlugin extends TouchBarPlatform {
     TouchBarPlatform.instance = TouchBarPlugin();
   }
 
+  /// Invokes setTouchBar Swift implementation
   @override
-  setTouchBar(AbstractTouchBar touchBar) {
-    String label = (touchBar.children.first as LabelItem).label;
-    return _channel.invokeMethod<bool>(
-      'setTouchBar',
-      label,
-    );
-  }
+  setTouchBar(AbstractTouchBar touchBar) =>
+      _channel.invokeMethod('setTouchBar', touchBar.toJson());
 }
