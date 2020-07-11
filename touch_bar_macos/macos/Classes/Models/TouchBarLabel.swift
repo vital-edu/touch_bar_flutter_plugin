@@ -4,25 +4,19 @@
 
 import Foundation
 
-class TouchBarLabel: NSCustomTouchBarItem {
-  init?(identifier: NSTouchBarItem.Identifier, withData itemData: NSDictionary) {
+class TouchBarLabel: NSCustomTouchBarItem, TouchBarItem {
+  required init?(identifier: NSTouchBarItem.Identifier, withData itemData: NSDictionary) {
     super.init(identifier: identifier)
 
-    guard let labelText = itemData["text"] as? String else {
-      return nil
-    }
-
+    // extract item data
+    guard let label = itemData["label"] as? String else { return nil }
     let accessibilityLabel = itemData["accessibilityLabel"] as? String
-    let textField = NSTextField(labelWithString: labelText)
-    textField.setAccessibilityLabel(accessibilityLabel)
+    let rgbaColor = itemData["color"] as? NSDictionary
 
-    if let color = itemData["color"] as? NSDictionary,
-        let red = color["red"] as? CGFloat,
-        let green = color["green"] as? CGFloat,
-        let blue = color["blue"] as? CGFloat,
-        let alpha = color["alpha"] as? CGFloat {
-        textField.textColor = NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha)
-    }
+    // setup NSTextField with extracted data
+    let textField = NSTextField(labelWithString: label)
+    textField.setAccessibilityLabel(accessibilityLabel)
+    textField.textColor = NSColor(fromRGBA: rgbaColor)
 
     self.view = textField
   }
