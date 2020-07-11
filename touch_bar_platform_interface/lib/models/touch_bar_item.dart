@@ -7,7 +7,7 @@
 abstract class AbstractTouchBarItem {
   const AbstractTouchBarItem();
 
-  /// Convert all the TouchBar data to a Map that will be used
+  /// Convert all the TouchBarItem data to a Map that will be used
   /// in the platform channel communication
   Map<String, dynamic> toMap();
 
