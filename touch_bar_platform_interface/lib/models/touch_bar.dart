@@ -15,26 +15,21 @@ abstract class AbstractTouchBar {
   /// Touch bar items to be displayed in the touch bar.
   final List<AbstractTouchBarItem> children;
 
-  /// Generates the JSON data that will be passed as argument
-  /// to the platform channels
-  Map<String, dynamic> toJson();
+  /// Convert all the class data to a Map that will be used
+  /// in the platform channel communication
+  Map<String, dynamic> toMap();
 }
 
 /// A standard touch bar with no touch bar item.
 class TouchBar extends AbstractTouchBar {
-  /// Creates a new TouchBar.
-  /// [children] are the items of the menu.
-  /// If [children] is empty, a blank touch bar will be rendered
   const TouchBar({
     @required List<AbstractTouchBarItem> children,
   }) : super(children);
 
-  /// Generates the JSON data that will be passed as argument
-  /// to the platform channels
   @override
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         'touch_bar': {
-          'children': children.map((item) => item.toJson()).toList(),
+          'children': children.map((item) => item.toMap()).toList(),
         }
       };
 }
