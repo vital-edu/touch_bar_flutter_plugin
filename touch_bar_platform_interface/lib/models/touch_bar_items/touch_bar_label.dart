@@ -4,6 +4,7 @@
 
 import 'dart:ui';
 
+import '../extensions/color_extension.dart';
 import '../touch_bar_item.dart';
 
 /// A touch bar item with a text with a single style.
@@ -15,7 +16,7 @@ class TouchBarLabel extends AbstractTouchBarItem {
   /// Label text
   final String label;
 
-  /// A succinct description of the label used to provide accessibility
+  /// A succinct description of the [TouchBarLabel] used to provide accessibility
   final String accessibilityLabel;
 
   /// Color of te label text
@@ -26,14 +27,7 @@ class TouchBarLabel extends AbstractTouchBarItem {
         'type': type,
         'label': label,
         'accessibilityLabel': accessibilityLabel,
-
-        /// Color must be converted to the range [0, 1]
-        'color': {
-          'red': textColor.red / 256,
-          'green': textColor.green / 255,
-          'blue': textColor.blue / 255,
-          'alpha': textColor.alpha / 255,
-        },
+        'color': textColor.toRGBA(),
       };
 
   @override
