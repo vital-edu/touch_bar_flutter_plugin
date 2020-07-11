@@ -7,8 +7,9 @@ import Foundation
 import AppKit
 
 @available(macOS 10.12.2, *)
-public class TouchBarPlugin: NSObject, FlutterPlugin, NSTouchBarDelegate, NSApplicationDelegate {
+public class TouchBarPlugin: NSObject, FlutterPlugin {
   var items: NSArray?
+  let touchBarItemFactory = TouchBarItemFactory()
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
@@ -33,11 +34,10 @@ public class TouchBarPlugin: NSObject, FlutterPlugin, NSTouchBarDelegate, NSAppl
       result("FlutterMethodNotImplemented")
     }
   }
+}
 
-  public func applicationDidFinishLaunching(_ aNotification: Notification) {
-    NSApplication.shared.isAutomaticCustomizeTouchBarMenuItemEnabled = true
-  }
-
+// MARK: - NSTouchBarDelegate
+extension TouchBarPlugin: NSTouchBarDelegate {
   func makeTouchBar() -> NSTouchBar? {
     let newTouchBar = NSTouchBar();
     newTouchBar.delegate = self
@@ -51,28 +51,19 @@ public class TouchBarPlugin: NSObject, FlutterPlugin, NSTouchBarDelegate, NSAppl
   }
 
   public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
-    let item = NSCustomTouchBarItem(identifier: identifier)
+    let position = Int(identifier.rawValue) ?? 0
 
-    guard
-      let itemData = self.items?.object(at: Int(identifier.rawValue) ?? 0) as? NSDictionary,
-      let label = itemData["label"] as? String else {
+    guard let itemData = self.items?.object(at: position) as? NSDictionary else {
       return nil
     }
 
-    let accessibilityLabel = itemData["accessibilityLabel"] as? String
+    return touchBarItemFactory.get(touchBarItem: itemData, withIdentifier: identifier)
+  }
+}
 
-    let textField = NSTextField(labelWithString: label)
-    textField.setAccessibilityLabel(accessibilityLabel)
-
-    if let color = itemData["color"] as? NSDictionary,
-        let red = color["red"] as? CGFloat,
-        let green = color["green"] as? CGFloat,
-        let blue = color["blue"] as? CGFloat,
-        let alpha = color["alpha"] as? CGFloat {
-        textField.textColor = NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha)
-    }
-
-    item.view = textField
-    return item;
+// MARK: - NSApplicationDelegate
+extension TouchBarPlugin: NSApplicationDelegate {
+  public func applicationDidFinishLaunching(_ aNotification: Notification) {
+    NSApplication.shared.isAutomaticCustomizeTouchBarMenuItemEnabled = true
   }
 }
