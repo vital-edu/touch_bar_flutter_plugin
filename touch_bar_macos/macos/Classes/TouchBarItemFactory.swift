@@ -6,25 +6,15 @@ import Foundation
 
 class TouchBarItemFactory {
   public func get(touchBarItem: NSDictionary, withIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
-    guard let label = touchBarItem["label"] as? String else {
-      return nil
+    guard let type: String = touchBarItem["type"] as? String else {
+        return nil
     }
 
-    let accessibilityLabel = touchBarItem["accessibilityLabel"] as? String
-    let textField = NSTextField(labelWithString: label)
-    textField.setAccessibilityLabel(accessibilityLabel)
-
-    if let color = touchBarItem["color"] as? NSDictionary,
-        let red = color["red"] as? CGFloat,
-        let green = color["green"] as? CGFloat,
-        let blue = color["blue"] as? CGFloat,
-        let alpha = color["alpha"] as? CGFloat {
-        textField.textColor = NSColor(deviceRed: red, green: green, blue: blue, alpha: alpha)
+    switch type {
+      case "Label":
+        return TouchBarLabel(identifier: identifier, withData: touchBarItem)
+      default:
+        return nil
     }
-
-    let item = NSCustomTouchBarItem(identifier: identifier)
-    item.view = textField
-
-    return item
   }
 }
