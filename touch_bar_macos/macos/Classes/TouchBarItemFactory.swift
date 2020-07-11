@@ -13,6 +13,8 @@ class TouchBarItemFactory {
     switch type {
       case "Label":
         return TouchBarLabel(identifier: identifier, withData: touchBarItem)
+      case "Button":
+        return TouchBarButton(identifier: identifier, withData: touchBarItem)
       default:
         return nil
     }
