@@ -8,14 +8,17 @@ import AppKit
 
 @available(macOS 10.12.2, *)
 public class TouchBarPlugin: NSObject, FlutterPlugin {
+  static var channel: FlutterMethodChannel!
+
   var items: NSArray?
   let touchBarItemFactory = TouchBarItemFactory()
 
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(
-      name: "plugins.flutter.io/touch_bar",
-      binaryMessenger: registrar.messenger
+    self.channel = FlutterMethodChannel(
+       name: "plugins.flutter.io/touch_bar",
+       binaryMessenger: registrar.messenger
     )
+
     let instance = TouchBarPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }

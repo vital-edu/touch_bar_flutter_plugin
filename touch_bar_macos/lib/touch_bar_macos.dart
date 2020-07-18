@@ -16,6 +16,12 @@ class TouchBarPlugin extends TouchBarPlatform {
 
   /// Invokes setTouchBar Swift implementation
   @override
-  setTouchBar(AbstractTouchBar touchBar) =>
-      _channel.invokeMethod('setTouchBar', touchBar.toMap());
+  setTouchBar(AbstractTouchBar touchBar) {
+    _channel.invokeMethod('setTouchBar', touchBar.toMap());
+    _channel.setMethodCallHandler((call) async {
+      touchBar.callMethod(call.method);
+    });
+
+    return null;
+  }
 }

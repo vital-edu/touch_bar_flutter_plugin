@@ -5,6 +5,8 @@
 import Foundation
 
 class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
+  var onClick : String?
+
   required init?(identifier: NSTouchBarItem.Identifier, withData itemData: NSDictionary) {
     super.init(identifier: identifier)
 
@@ -12,6 +14,7 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
     guard let label = itemData["label"] as? String else { return nil }
     let accessibilityLabel = itemData["accessibilityLabel"] as? String
     let rgbaBackgroundColor = itemData["backgroundColor"] as? NSDictionary
+    self.onClick = itemData["onClick"] as? String
 
     // setup NSTextField with extracted data
     let button = NSButton(title: label, target: self, action: #selector(handleButtonClick))
@@ -22,7 +25,9 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
   }
 
   @objc func handleButtonClick(_ sender: NSButton) {
-    print("button was clicked")
+    if let onClick = self.onClick {
+      TouchBarPlugin.channel.invokeMethod(onClick, arguments: nil)
+    };
   }
 
   required init?(coder: NSCoder) {
