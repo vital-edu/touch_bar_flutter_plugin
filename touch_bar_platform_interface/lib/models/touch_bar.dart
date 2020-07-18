@@ -18,6 +18,18 @@ abstract class AbstractTouchBar {
   /// Convert all the class data to a Map that will be used
   /// in the platform channel communication
   Map<String, dynamic> toMap();
+
+  /// Searches the method named [name] in the all the TouchBar items
+  /// and execute it.
+  ///
+  /// It returns true if a method of the given [name] was found and executed.
+  ///
+  /// The [name] has the value of [Function.hashCode].
+  /// It is not a humand readable name nor the name of the property that it
+  /// holds.
+  ///
+  /// **This method should not be called manually.**
+  bool callMethod(String name);
 }
 
 /// A standard touch bar with no touch bar item.
@@ -25,6 +37,14 @@ class TouchBar extends AbstractTouchBar {
   const TouchBar({
     @required List<AbstractTouchBarItem> children,
   }) : super(children);
+
+  @override
+  bool callMethod(String name) {
+    for (AbstractTouchBarItem child in children) {
+      if (child.callMethod(name) == true) return true;
+    }
+    return false;
+  }
 
   @override
   Map<String, dynamic> toMap() => {

@@ -5,7 +5,54 @@
 /// The base type for an individual touch bar item that can be shown in a
 /// touch bar.
 abstract class AbstractTouchBarItem {
-  const AbstractTouchBarItem();
+  /// Constructor
+  ///
+  /// [methods] should be nil only if the TouchBarItem has no methods
+  /// that will be called in the native platform.
+  ///
+  /// All the concrete implementation of this that contains actioons that
+  /// will be called in the native platform must be implemented following the
+  /// example below:
+  /// ```dart
+  /// class ConcreteTouchBarItem extends AbstractTouchBarItem {
+  ///   // [onAction] and [onAnotherAction] store just the hash code of the
+  ///   // implementation.
+  ///   final String onAction();
+  ///   final String onAnotherAction();
+  ///
+  ///   // [methods] will be used as single source of truth to the
+  ///   // implementation and [onAction] and [onAnotherAction] will be
+  ///   // used in the [toMap()].
+  ///   ConcreteTouchBarItem(Function onAction) :
+  ///     this.onAction = onAction.hashCode.toString(),
+  ///     this.onAnotherAction = onAction.hashCode.toString(),
+  ///     super(methods: {
+  ///       '${onAction.hashCode}': onAction,
+  ///       '${onAnotherAction.hashCode}': onAnotherAction,
+  ///     });
+  /// }
+  /// ```
+  const AbstractTouchBarItem({this.methods = const {}});
+
+  /// Searches the method named [name] in this and execute it.
+  ///
+  /// It returns true if a method of the given [name] was found and executed.
+  ///
+  /// The [name] has the value of [Function.hashCode].
+  /// It is not a humand readable name nor the name of the property that it
+  /// holds.
+  ///
+  /// **This method should not be called manually.**
+  bool callMethod(String name) {
+    for (String functionName in methods.keys) {
+      if (functionName == name) {
+        methods[name]();
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   /// Convert all the TouchBarItem data to a Map that will be used
   /// in the platform channel communication
@@ -18,4 +65,12 @@ abstract class AbstractTouchBarItem {
   /// is performed through subset of the primitive types.
   /// See https://flutter.dev/docs/development/platform-integration/platform-channels#codec
   String get type;
+
+  /// Stores all the methods of this.
+  ///
+  /// The [Map.keys] stores the hash code of the methods
+  /// and [Map.values] stores the method implementation.
+  ///
+  /// **This should not be included in the [toMap] implementation**
+  final Map<String, Function> methods;
 }

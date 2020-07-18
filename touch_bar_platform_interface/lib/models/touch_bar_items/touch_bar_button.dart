@@ -17,8 +17,9 @@ class TouchBarButton extends AbstractTouchBarItem {
     this.accessibilityLabel,
     this.backgroundColor,
     this.icon,
-    this.onClick,
-  }) : super();
+    Function onClick,
+  })  : this.onClick = onClick.hashCode.toString(),
+        super(methods: {'${onClick.hashCode}': onClick});
 
   /// [TouchBarButton] label text
   final String label;
@@ -37,7 +38,11 @@ class TouchBarButton extends AbstractTouchBarItem {
   /// Button icon
   final String icon;
 
-  final Function onClick;
+  /// The hash code of the method called when the button is clicked.
+  ///
+  /// The implementation of this method is stored in
+  /// [AbstractTouchBarItem.methods].
+  final String onClick;
 
   @override
   Map<String, dynamic> toMap() {
@@ -50,6 +55,7 @@ class TouchBarButton extends AbstractTouchBarItem {
       map['accessibilityLabel'] = accessibilityLabel;
     if (backgroundColor != null)
       map['backgroundColor'] = backgroundColor.toRGBA();
+    if (onClick != null) map['onClick'] = onClick;
 
     return map;
   }
