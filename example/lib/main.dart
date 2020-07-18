@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
         TouchBarButton(
           label: "Increment +1",
           backgroundColor: Colors.yellow,
-          onClick: () => print("Flutter Clicked"),
+          onClick: _incrementCounter,
         ),
         TouchBarLabel('Red Label', textColor: Colors.red),
         TouchBarLabel('Blue Label', textColor: Colors.blue),
