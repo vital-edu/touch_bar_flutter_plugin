@@ -30,8 +30,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   TouchBar bar;
+  TouchBarImage icon;
 
-  void _incrementCounter() {
+  _incrementCounter() {
     setState(() {
       _counter++;
       bar = TouchBar(children: [
@@ -39,12 +40,30 @@ class _MyHomePageState extends State<MyHomePage> {
           label: "Increment +1",
           backgroundColor: Colors.yellow,
           onClick: _incrementCounter,
+          icon: icon,
         ),
         TouchBarLabel('Red Label', textColor: Colors.red),
         TouchBarLabel('Blue Label', textColor: Colors.blue),
         TouchBarLabel('Counter: $_counter', textColor: Colors.white),
       ]);
       setTouchBar(bar);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadAssetImage();
+  }
+
+  void loadAssetImage() async {
+    final image = await TouchBarImage.loadFrom(
+      path: 'assets/icons/plus.png',
+      key: 'plus',
+    );
+
+    setState(() {
+      this.icon = image;
     });
   }
 
