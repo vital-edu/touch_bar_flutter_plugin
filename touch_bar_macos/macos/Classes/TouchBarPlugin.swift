@@ -15,8 +15,11 @@ public class TouchBarPlugin: NSObject, FlutterPlugin {
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     self.channel = FlutterMethodChannel(
-       name: "plugins.flutter.io/touch_bar",
-       binaryMessenger: registrar.messenger
+      name: "plugins.flutter.io/touch_bar",
+      binaryMessenger: registrar.messenger,
+      codec: FlutterStandardMethodCodec(
+        readerWriter: TouchBarPluginReaderWritter()
+      )
     )
 
     let instance = TouchBarPlugin()

@@ -16,8 +16,22 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
     let rgbaBackgroundColor = itemData["backgroundColor"] as? NSDictionary
     self.onClick = itemData["onClick"] as? String
 
-    // setup NSTextField with extracted data
-    let button = NSButton(title: label, target: self, action: #selector(handleButtonClick))
+    let button: NSButton!
+    if let icon = itemData["icon"] as? TouchBarImage {
+      button = NSButton(
+        title: label,
+        image: icon.image,
+        target: self,
+        action: #selector(handleButtonClick)
+      )
+    } else {
+      button = NSButton(
+        title: label,
+        target: self,
+        action: #selector(handleButtonClick)
+      )
+    }
+
     button.setAccessibilityLabel(accessibilityLabel)
     button.bezelColor = NSColor(fromRGBA: rgbaBackgroundColor)
 

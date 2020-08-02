@@ -5,8 +5,12 @@
 import 'package:flutter/services.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar.dart';
 import 'package:touch_bar_platform_interface/touch_bar_platform_interface.dart';
+import 'package:touch_bar_platform_interface/utils/touch_bar__message_codec.dart';
 
-const MethodChannel _channel = MethodChannel('plugins.flutter.io/touch_bar');
+const MethodChannel _channel = MethodChannel(
+  'plugins.flutter.io/touch_bar',
+  StandardMethodCodec(TouchBarMessageCodec()),
+);
 
 class TouchBarPlugin extends TouchBarPlatform {
   /// Registers this class as the default instance of [TouchBarPlatform].
