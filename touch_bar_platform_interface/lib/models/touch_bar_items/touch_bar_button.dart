@@ -12,14 +12,27 @@ import '../extensions/color_extension.dart';
 
 class TouchBarButton extends AbstractTouchBarItem {
   /// Creates a new [TouchBarButton] item with the given [label],
-  /// [accessibilityLabel], [backgroundColor], [icon], and [onClick].
+  /// [accessibilityLabel], [backgroundColor], [icon], [iconPosition]
+  /// and [onClick].
+  ///
+  /// [IconPosition] is set to (the first condition to match will be applied):
+  /// - [IconPosition.noImage] if [icon] is null;
+  /// - [IconPosition.imageOnly] if [label] is null;
+  /// - [IconPosition.left] if [iconPosition] is null;
+  /// - otherwise the [iconPosition] value will be used.
   TouchBarButton({
     this.label,
     this.accessibilityLabel,
     this.backgroundColor,
     this.icon,
+    IconPosition iconPosition,
     Function onClick,
   })  : this.onClick = onClick.hashCode.toString(),
+        this.iconPosition = _determineIconPosition(
+          label: label,
+          icon: icon,
+          defaultPosition: iconPosition,
+        ),
         super(methods: {'${onClick.hashCode}': onClick});
 
   /// [TouchBarButton] label text
@@ -32,8 +45,7 @@ class TouchBarButton extends AbstractTouchBarItem {
   final Color backgroundColor;
 
   /// The position of the icon in relation to the label.
-  /// It defaults to `left`
-  final IconPosition iconPosition = IconPosition.left;
+  final IconPosition iconPosition;
 
   /// Button icon
   final TouchBarImage icon;
@@ -63,16 +75,36 @@ class TouchBarButton extends AbstractTouchBarItem {
 
   @override
   String get type => "Button";
+
+  /// Determine the value of [iconPosition] based on [label], [icon] and
+  /// [defaultPosition].
+  static IconPosition _determineIconPosition({
+    @required String label,
+    @required TouchBarImage icon,
+    @required IconPosition defaultPosition,
+  }) {
+    if (icon == null) return IconPosition.noImage;
+    if (label == null) return IconPosition.imageOnly;
+    if (defaultPosition == null) return IconPosition.left;
+
+    return defaultPosition;
+  }
 }
 
 /// The position of the icon in relation to the label.
 enum IconPosition {
-  /// The image is to the left of the title.
+  /// The image is not shown.
+  noImage,
+
+  /// The label is not shown.
+  imageOnly,
+
+  /// The image is to the left of the label.
   left,
 
-  /// The image is to the right of the title.
+  /// The image is to the right of the label.
   right,
 
-  /// The image overlaps the title.
+  /// The image overlaps the label.
   overlaps,
 }
