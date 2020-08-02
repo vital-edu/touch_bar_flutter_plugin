@@ -35,7 +35,6 @@ class TouchBarButton extends AbstractTouchBarItem {
   /// It defaults to `left`
   final IconPosition iconPosition = IconPosition.left;
 
-  /// TODO(vital-edu): Implement support for native image
   /// Button icon
   final TouchBarImage icon;
 
@@ -57,6 +56,7 @@ class TouchBarButton extends AbstractTouchBarItem {
     if (backgroundColor != null)
       map['backgroundColor'] = backgroundColor.toRGBA();
     if (onClick != null) map['onClick'] = onClick;
+    if (icon != null) map['icon'] = icon;
 
     return map;
   }
