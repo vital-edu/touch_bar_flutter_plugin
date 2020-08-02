@@ -5,6 +5,7 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
+import 'package:touch_bar_platform_interface/models/touch_bar_image.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_item.dart';
 
 import '../extensions/color_extension.dart';
@@ -36,7 +37,7 @@ class TouchBarButton extends AbstractTouchBarItem {
 
   /// TODO(vital-edu): Implement support for native image
   /// Button icon
-  final String icon;
+  final TouchBarImage icon;
 
   /// The hash code of the method called when the button is clicked.
   ///
