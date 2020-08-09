@@ -31,6 +31,7 @@ class TouchBarPopover extends TouchBarWrapper {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
+      'id': id,
       'type': type,
       'children': children.map((item) => item.toMap()).toList(),
       'showCloseButton': showCloseButton,

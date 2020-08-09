@@ -24,6 +24,7 @@ class TouchBarLabel extends TouchBarItem {
 
   @override
   Map<String, dynamic> toMap() => {
+        'id': id,
         'type': type,
         'label': label,
         'accessibilityLabel': accessibilityLabel,

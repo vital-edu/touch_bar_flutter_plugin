@@ -2,6 +2,8 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
+int nextTouchBarItemID = 0;
+
 /// The base type touch bar item that can be shown in a touch bar.
 abstract class AbstractTouchBarItem {
   /// Constructor
@@ -31,7 +33,7 @@ abstract class AbstractTouchBarItem {
   ///     });
   /// }
   /// ```
-  const AbstractTouchBarItem({this.methods = const {}});
+  AbstractTouchBarItem({this.methods = const {}});
 
   /// Searches the method named [name] in this and execute it.
   ///
@@ -53,6 +55,11 @@ abstract class AbstractTouchBarItem {
     return false;
   }
 
+  /// The unique sequential identifier of [this].
+  ///
+  /// Note: **This must be included in the [toMap] implementation.**
+  final int id = nextTouchBarItemID++;
+
   /// Convert all the TouchBarItem data to a Map that will be used
   /// in the platform channel communication.
   Map<String, dynamic> toMap();
@@ -70,7 +77,7 @@ abstract class AbstractTouchBarItem {
   /// The [Map.keys] stores the hash code of the methods
   /// and [Map.values] stores the method implementation.
   ///
-  /// **This should not be included in the [toMap] implementation.**
+  /// Note: **This should not be included in the [toMap] implementation.**
   final Map<String, Function> methods;
 }
 
@@ -87,7 +94,7 @@ abstract class TouchBarItem extends AbstractTouchBarItem {
 
 /// The base type for touch bar items that contain others touchbar items
 abstract class TouchBarWrapper extends AbstractTouchBarItem {
-  const TouchBarWrapper({this.children = const []});
+  TouchBarWrapper({this.children = const []});
 
   /// The subitems of [this].
   final List<TouchBarItem> children;

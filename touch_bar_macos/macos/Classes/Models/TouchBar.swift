@@ -10,8 +10,9 @@ class TouchBar: NSTouchBar, NSTouchBarDelegate {
     self.items = items
     super.init()
 
-    let identifiers = (0...((items.count) - 1)).map {
-      NSTouchBarItem.Identifier(String($0))
+    let identifiers = items.map { (item) -> NSTouchBarItem.Identifier in
+      let id = (item as! NSDictionary)["id"] as! Int
+      return NSTouchBarItem.Identifier(String(id))
     }
 
     self.delegate = self
@@ -23,9 +24,9 @@ class TouchBar: NSTouchBar, NSTouchBarDelegate {
   }
 
   public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
-    let position = Int(identifier.rawValue) ?? 0
+    let id = Int(identifier.rawValue)
 
-    guard let itemData = self.items.object(at: position) as? NSDictionary else {
+    guard case let itemData as NSDictionary = self.items.first(where: { ($0 as! NSDictionary)["id"] as? Int == id }) else {
       return nil
     }
 

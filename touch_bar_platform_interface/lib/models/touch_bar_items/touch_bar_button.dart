@@ -58,6 +58,7 @@ class TouchBarButton extends TouchBarItem {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
+      'id': id,
       'type': type,
       'ImagePosition': labeledIcon.imagePosition.toString(),
     };
