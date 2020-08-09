@@ -11,7 +11,6 @@ public class TouchBarPlugin: NSObject, FlutterPlugin {
   static var channel: FlutterMethodChannel!
 
   var items: NSArray?
-  let touchBarItemFactory = TouchBarItemFactory()
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     self.channel = FlutterMethodChannel(
@@ -34,36 +33,10 @@ public class TouchBarPlugin: NSObject, FlutterPlugin {
         return result("FlutterUnexpectedArguments")
       }
 
-      self.items = children
-      NSApp.keyWindow!.touchBar = makeTouchBar();
+      NSApp.keyWindow!.touchBar = TouchBar(items: children)
     default:
       result("FlutterMethodNotImplemented")
     }
-  }
-}
-
-// MARK: - NSTouchBarDelegate
-extension TouchBarPlugin: NSTouchBarDelegate {
-  func makeTouchBar() -> NSTouchBar? {
-    let newTouchBar = NSTouchBar();
-    newTouchBar.delegate = self
-
-    let identifiers = (0...((self.items?.count ?? 0) - 1)).map {
-      NSTouchBarItem.Identifier(String($0))
-    }
-
-    newTouchBar.defaultItemIdentifiers = identifiers
-    return newTouchBar
-  }
-
-  public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
-    let position = Int(identifier.rawValue) ?? 0
-
-    guard let itemData = self.items?.object(at: position) as? NSDictionary else {
-      return nil
-    }
-
-    return touchBarItemFactory.get(touchBarItem: itemData, withIdentifier: identifier)
   }
 }
 
