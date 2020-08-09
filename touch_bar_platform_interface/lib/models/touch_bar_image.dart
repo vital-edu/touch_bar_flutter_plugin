@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 class TouchBarImage {
-  String key;
-  ByteData data;
+  final String key;
+  final ByteData data;
 
   /// Create an instance of TouchBarImage from an asset [path] with a [key].
   ///

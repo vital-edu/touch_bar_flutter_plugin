@@ -5,50 +5,49 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
-import 'package:touch_bar_platform_interface/models/touch_bar_image.dart';
-import 'package:touch_bar_platform_interface/models/touch_bar_item.dart';
 
 import '../extensions/color_extension.dart';
+import '../labeled_image.dart';
+import '../touch_bar_image.dart';
+import '../touch_bar_item.dart';
 
 class TouchBarButton extends TouchBarItem {
   /// Creates a new [TouchBarButton] item with the given [label],
   /// [accessibilityLabel], [backgroundColor], [icon], [iconPosition]
   /// and [onClick].
   ///
-  /// [IconPosition] is set to (the first condition to match will be applied):
-  /// - [IconPosition.noImage] if [icon] is null;
-  /// - [IconPosition.imageOnly] if [label] is null;
-  /// - [IconPosition.left] if [iconPosition] is null;
+  /// [iconPosition] is set to (the first condition to match will be applied):
+  /// - [ImagePosition.noImage] if [icon] is null;
+  /// - [ImagePosition.imageOnly] if [label] is null;
+  /// - [ImagePosition.left] if [iconPosition] is null;
   /// - otherwise the [iconPosition] value will be used.
   TouchBarButton({
-    this.label,
+    String label,
     this.accessibilityLabel,
     this.backgroundColor,
-    this.icon,
-    IconPosition iconPosition,
+    TouchBarImage icon,
+    ImagePosition iconPosition,
     Function onClick,
   })  : this.onClick = onClick.hashCode.toString(),
-        this.iconPosition = _determineIconPosition(
+        this.labeledIcon = LabeledImage(
+          image: icon,
           label: label,
-          icon: icon,
-          defaultPosition: iconPosition,
+          imagePosition: iconPosition,
         ),
         super(methods: {'${onClick.hashCode}': onClick});
 
-  /// [TouchBarButton] label text
-  final String label;
+  @override
+  String get type => "Button";
 
-  /// A succinct description of the [TouchBarButton] used to provide accessibility
+  /// Icon with label and iconpPosition information.
+  final LabeledImage labeledIcon;
+
+  /// A succinct description of the [TouchBarButton] used to provide
+  /// accessibility.
   final String accessibilityLabel;
 
   /// Background color of te [TouchBarButton]
   final Color backgroundColor;
-
-  /// The position of the icon in relation to the label.
-  final IconPosition iconPosition;
-
-  /// Button icon
-  final TouchBarImage icon;
 
   /// The hash code of the method called when the button is clicked.
   ///
@@ -60,51 +59,16 @@ class TouchBarButton extends TouchBarItem {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
       'type': type,
-      'iconPosition': iconPosition.toString(),
+      'ImagePosition': labeledIcon.imagePosition.toString(),
     };
-    if (label != null) map['label'] = label;
+    if (labeledIcon.label != null) map['label'] = labeledIcon.label;
     if (accessibilityLabel != null)
       map['accessibilityLabel'] = accessibilityLabel;
     if (backgroundColor != null)
       map['backgroundColor'] = backgroundColor.toRGBA();
     if (onClick != null) map['onClick'] = onClick;
-    if (icon != null) map['icon'] = icon;
+    if (labeledIcon.image != null) map['icon'] = labeledIcon.image;
 
     return map;
   }
-
-  @override
-  String get type => "Button";
-
-  /// Determine the value of [iconPosition] based on [label], [icon] and
-  /// [defaultPosition].
-  static IconPosition _determineIconPosition({
-    @required String label,
-    @required TouchBarImage icon,
-    @required IconPosition defaultPosition,
-  }) {
-    if (icon == null) return IconPosition.noImage;
-    if (label == null) return IconPosition.imageOnly;
-    if (defaultPosition == null) return IconPosition.left;
-
-    return defaultPosition;
-  }
-}
-
-/// The position of the icon in relation to the label.
-enum IconPosition {
-  /// The image is not shown.
-  noImage,
-
-  /// The label is not shown.
-  imageOnly,
-
-  /// The image is to the left of the label.
-  left,
-
-  /// The image is to the right of the label.
-  right,
-
-  /// The image overlaps the label.
-  overlaps,
 }

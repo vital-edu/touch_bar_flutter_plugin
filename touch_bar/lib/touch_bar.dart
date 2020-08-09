@@ -9,6 +9,8 @@ export 'package:touch_bar_platform_interface/models/touch_bar.dart';
 export 'package:touch_bar_platform_interface/models/touch_bar_image.dart';
 export 'package:touch_bar_platform_interface/models/touch_bar_items/touch_bar_button.dart';
 export 'package:touch_bar_platform_interface/models/touch_bar_items/touch_bar_label.dart';
+export 'package:touch_bar_platform_interface/models/labeled_image.dart'
+    show ImagePosition;
 
 Future<void> setTouchBar(TouchBar touchBar) {
   return TouchBarPlatform.instance.setTouchBar(touchBar);
