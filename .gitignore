@@ -41,3 +41,5 @@ build/
 .project
 .classpath
 .settings
+
+**/doc/api
