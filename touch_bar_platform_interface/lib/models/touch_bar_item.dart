@@ -2,8 +2,7 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-/// The base type for an individual touch bar item that can be shown in a
-/// touch bar.
+/// The base type touch bar item that can be shown in a touch bar.
 abstract class AbstractTouchBarItem {
   /// Constructor
   ///
@@ -55,7 +54,7 @@ abstract class AbstractTouchBarItem {
   }
 
   /// Convert all the TouchBarItem data to a Map that will be used
-  /// in the platform channel communication
+  /// in the platform channel communication.
   Map<String, dynamic> toMap();
 
   /// Name of the concrete implementation of the AbstractTouchBarItem
@@ -63,7 +62,7 @@ abstract class AbstractTouchBarItem {
   /// which TouchBarItem must be rendered.
   /// This is important because the platform channel communication
   /// is performed through subset of the primitive types.
-  /// See https://flutter.dev/docs/development/platform-integration/platform-channels#codec
+  /// See https://flutter.dev/docs/development/platform-integration/platform-channels#codec.
   String get type;
 
   /// Stores all the methods of this.
@@ -71,6 +70,25 @@ abstract class AbstractTouchBarItem {
   /// The [Map.keys] stores the hash code of the methods
   /// and [Map.values] stores the method implementation.
   ///
-  /// **This should not be included in the [toMap] implementation**
+  /// **This should not be included in the [toMap] implementation.**
   final Map<String, Function> methods;
+}
+
+/// The base type for touch bar items that do not contain others touchbars.
+///
+/// Note: the [children] property is forbidden in [this]
+/// Use [TouchBarWrapper] to be able to use the [children] property.
+abstract class TouchBarItem extends AbstractTouchBarItem {
+  /// The [children] property is forbbiden in [this].
+  final List<TouchBarItem> children = null;
+
+  TouchBarItem({Map<String, Function> methods}) : super(methods: methods);
+}
+
+/// The base type for touch bar items that contain others touchbar items
+abstract class TouchBarWrapper extends AbstractTouchBarItem {
+  const TouchBarWrapper({this.children = const []});
+
+  /// The subitems of [this].
+  final List<TouchBarItem> children;
 }

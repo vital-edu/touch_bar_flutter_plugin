@@ -10,7 +10,7 @@ import 'package:touch_bar_platform_interface/models/touch_bar_item.dart';
 
 import '../extensions/color_extension.dart';
 
-class TouchBarButton extends AbstractTouchBarItem {
+class TouchBarButton extends TouchBarItem {
   /// Creates a new [TouchBarButton] item with the given [label],
   /// [accessibilityLabel], [backgroundColor], [icon], [iconPosition]
   /// and [onClick].
