@@ -8,7 +8,7 @@ import '../extensions/color_extension.dart';
 import '../touch_bar_item.dart';
 
 /// A touch bar item with a text with a single style.
-class TouchBarLabel extends AbstractTouchBarItem {
+class TouchBarLabel extends TouchBarItem {
   /// Creates a new label item with the given [identifier] and [label].
   TouchBarLabel(this.label, {this.textColor, this.accessibilityLabel})
       : super();

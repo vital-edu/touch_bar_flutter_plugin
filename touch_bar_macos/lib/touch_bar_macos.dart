@@ -5,7 +5,7 @@
 import 'package:flutter/services.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar.dart';
 import 'package:touch_bar_platform_interface/touch_bar_platform_interface.dart';
-import 'package:touch_bar_platform_interface/utils/touch_bar__message_codec.dart';
+import 'package:touch_bar_platform_interface/utils/touch_bar_message_codec.dart';
 
 const MethodChannel _channel = MethodChannel(
   'plugins.flutter.io/touch_bar',

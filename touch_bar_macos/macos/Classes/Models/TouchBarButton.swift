@@ -4,35 +4,6 @@
 
 import Foundation
 
-// A subset of the NSControl.ImagePosition
-enum IconPosition: UInt {
-  case noImage = 0
-  case imageOnly = 1
-  case left = 2
-  case right = 3
-  case overlaps = 6
-
-  init(_ position: String) {
-    switch position {
-      case "IconPosition.noImage":
-        self = Self.noImage
-      case "IconPosition.imageOnly":
-        self = Self.imageOnly
-      case "IconPosition.right":
-        self = Self.right
-      case "IconPosition.overlaps":
-        self = Self.overlaps
-      default:
-        self = Self.left
-    }
-  }
-
-  func toImagePosition() -> NSControl.ImagePosition {
-    return NSControl.ImagePosition(rawValue: self.rawValue)!
-  }
-}
-
-
 class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
   var onClick : String?
 
@@ -62,7 +33,7 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
     }
 
     if let position = itemData["iconPosition"] as? String {
-      button.imagePosition = IconPosition(position).toImagePosition()
+      button.imagePosition = ImagePosition(position).toImagePosition()
     }
 
     button.setAccessibilityLabel(accessibilityLabel)

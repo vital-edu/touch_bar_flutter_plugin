@@ -45,6 +45,22 @@ class _MyHomePageState extends State<MyHomePage> {
         TouchBarLabel('Red Label', textColor: Colors.red),
         TouchBarLabel('Blue Label', textColor: Colors.blue),
         TouchBarLabel('Counter: $_counter', textColor: Colors.white),
+        TouchBarPopover(
+          label: 'Options',
+          icon: icon,
+          iconPosition: ImagePosition.right,
+          children: [
+            TouchBarLabel('Yello Label', textColor: Colors.yellow),
+            TouchBarLabel('Pink Label', textColor: Colors.pink),
+            TouchBarButton(
+              label: "Increment +1",
+              backgroundColor: Colors.yellow,
+              onClick: _incrementCounter,
+              icon: icon,
+            ),
+          ],
+          showCloseButton: true,
+        ),
       ]);
       setTouchBar(bar);
     });
