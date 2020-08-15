@@ -60,7 +60,7 @@ class TouchBarButton extends TouchBarItem {
     Map<String, dynamic> map = {
       'id': id,
       'type': type,
-      'ImagePosition': labeledIcon.imagePosition.toString(),
+      'imagePosition': labeledIcon.imagePosition.toString(),
     };
     if (labeledIcon.label != null) map['label'] = labeledIcon.label;
     if (accessibilityLabel != null)

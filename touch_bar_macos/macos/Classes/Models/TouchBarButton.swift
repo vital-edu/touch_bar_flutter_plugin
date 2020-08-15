@@ -32,7 +32,7 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
       )
     }
 
-    if let position = itemData["iconPosition"] as? String {
+    if let position = itemData["imagePosition"] as? String {
       button.imagePosition = ImagePosition(position).toImagePosition()
     }
 

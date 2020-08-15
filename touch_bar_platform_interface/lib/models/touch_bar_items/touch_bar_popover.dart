@@ -35,7 +35,7 @@ class TouchBarPopover extends TouchBarWrapper {
       'type': type,
       'children': children.map((item) => item.toMap()).toList(),
       'showCloseButton': showCloseButton,
-      'ImagePosition': labeledIcon.imagePosition.toString(),
+      'imagePosition': labeledIcon.imagePosition.toString(),
     };
     if (labeledIcon.label != null) map['label'] = labeledIcon.label;
     if (labeledIcon.image != null) map['icon'] = labeledIcon.image;

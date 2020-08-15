@@ -23,7 +23,7 @@ class TouchBarPopover: NSPopoverTouchBarItem, TouchBarItem, NSTouchBarDelegate {
     // The icon position must be the last property to be set
     // because collapsedRepresentationImage and collapsedRepresentationLabel
     // overrides it.
-    if let position = itemData["ImagePosition"] as? String {
+    if let position = itemData["imagePosition"] as? String {
       (self.collapsedRepresentation as! NSButton).imagePosition = ImagePosition(position).toImagePosition()
     }
   }
