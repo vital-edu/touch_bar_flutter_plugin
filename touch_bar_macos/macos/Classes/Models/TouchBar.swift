@@ -42,6 +42,8 @@ class TouchBar: NSTouchBar, NSTouchBarDelegate {
     }
 
     switch type {
+      case "Label":
+        (item as! TouchBarLabel).update(data: data)
       default:
         fatalError("TouchBarItem of type \(type) has not been implemented")
     }

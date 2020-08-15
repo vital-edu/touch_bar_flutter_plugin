@@ -21,6 +21,16 @@ class TouchBarLabel: NSCustomTouchBarItem, TouchBarItem {
     self.view = textField
   }
 
+  func update(data: NSDictionary ) {
+    if let label = data["label"] as? String {
+      (self.view as! NSTextField).stringValue = label
+    } else if let accessibilityLabel = data["accessibilityLabel"] as? String {
+      (self.view as! NSTextField).setAccessibilityLabel(accessibilityLabel)
+    } else if let rgbaColor = data["color"] as? NSDictionary {
+      (self.view as! NSTextField).textColor = NSColor(fromRGBA: rgbaColor)
+    }
+  }
+
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
