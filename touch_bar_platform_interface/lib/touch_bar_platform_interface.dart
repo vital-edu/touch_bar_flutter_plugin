@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:touch_bar_macos/touch_bar_macos.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar.dart';
+import 'package:touch_bar_platform_interface/models/touch_bar_item.dart';
 
 /// The interface that implementations of touch_bar must implement.
 ///
@@ -38,6 +39,28 @@ abstract class TouchBarPlatform extends PlatformInterface {
   /// Sets the touchBar for the current window.
   /// Specifying `null` clears the touch bar.
   Future<void> setTouchBar(AbstractTouchBar touchBar) {
+    throw UnimplementedError('setTouchBar() has not been implemented.');
+  }
+
+  /// Change the data of the [TouchBarItem] of the given [id] and [type]
+  /// with the new data provided by [dataChanges].
+  ///
+  /// The [dataChanges] must contain all the data that need to be changed.
+  /// Do not provide data unless it must be changed.
+  ///
+  /// The [dataChanges] must be in the format:
+  /// ```dart
+  /// {
+  ///   'propertyOneName': newValue,
+  ///   // others properties that must be changed
+  /// }
+  /// ```
+  ///
+  void setTouchBarItem({
+    int id,
+    String type,
+    Map<String, dynamic> dataChanges,
+  }) {
     throw UnimplementedError('setTouchBar() has not been implemented.');
   }
 }

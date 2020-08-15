@@ -7,10 +7,9 @@ import Foundation
 import AppKit
 
 @available(macOS 10.12.2, *)
-public class TouchBarPlugin: NSObject, FlutterPlugin {
+public class TouchBarPlugin: FlutterViewController, FlutterPlugin {
   static var channel: FlutterMethodChannel!
-
-  var items: NSArray?
+  static var touchBars: [TouchBar] = []
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     self.channel = FlutterMethodChannel(
@@ -32,17 +31,23 @@ public class TouchBarPlugin: NSObject, FlutterPlugin {
         let children = touchBarJson["children"] as? NSArray else {
         return result("FlutterUnexpectedArguments")
       }
+      Self.touchBars = []
+      self.touchBar = TouchBar(items: children)
+      NSApp.mainWindow?.bind(NSBindingName(#keyPath(touchBar)), to: self, withKeyPath: #keyPath(touchBar), options: nil)
+    case "setTouchBarItem":
+      guard let data = call.arguments as? NSDictionary,
+        let id = data["id"] as? Int,
+        let type = data["type"] as? String else {
+          return result("FlutterUnexpectedArguments")
+      }
 
-      NSApp.keyWindow!.touchBar = TouchBar(items: children)
+      self.view.touchBar = Self.touchBars[0]
+
+      for touchBar in Self.touchBars {
+        touchBar.setTouchBarItem(ofId: id, andType: type, withData: data)
+      }
     default:
       result("FlutterMethodNotImplemented")
     }
-  }
-}
-
-// MARK: - NSApplicationDelegate
-extension TouchBarPlugin: NSApplicationDelegate {
-  public func applicationDidFinishLaunching(_ aNotification: Notification) {
-    NSApplication.shared.isAutomaticCustomizeTouchBarMenuItemEnabled = true
   }
 }

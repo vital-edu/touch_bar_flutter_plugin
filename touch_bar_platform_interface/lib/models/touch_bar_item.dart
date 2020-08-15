@@ -2,6 +2,9 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+import 'package:touch_bar_platform_interface/touch_bar_platform_interface.dart';
+
 int nextTouchBarItemID = 0;
 
 /// The base type touch bar item that can be shown in a touch bar.
@@ -53,6 +56,20 @@ abstract class AbstractTouchBarItem {
     }
 
     return false;
+  }
+
+  /// Updates the property named [name] with a [newValue].
+  ///
+  /// **The [name] must be the same used in [this.toMap()]**
+  @protected
+  void updateProperty(String name, {dynamic newValue}) {
+    TouchBarPlatform.instance.setTouchBarItem(
+      id: this.id,
+      type: this.type,
+      dataChanges: {
+        name: newValue,
+      },
+    );
   }
 
   /// The unique sequential identifier of [this].

@@ -17,6 +17,8 @@ class TouchBar: NSTouchBar, NSTouchBarDelegate {
 
     self.delegate = self
     self.defaultItemIdentifiers = identifiers
+
+    TouchBarPlugin.touchBars.append(self)
   }
 
   required init?(coder: NSCoder) {
@@ -31,5 +33,17 @@ class TouchBar: NSTouchBar, NSTouchBarDelegate {
     }
 
     return touchBarItemFactory.get(touchBarItem: itemData, withIdentifier: identifier)
+  }
+
+  public func setTouchBarItem(ofId id: Int, andType type: String, withData data: NSDictionary) {
+    let identifier = NSTouchBarItem.Identifier(String(id))
+    guard let item = self.item(forIdentifier: identifier) else {
+      return
+    }
+
+    switch type {
+      default:
+        fatalError("TouchBarItem of type \(type) has not been implemented")
+    }
   }
 }
