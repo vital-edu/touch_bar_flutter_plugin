@@ -21,6 +21,7 @@ public class TouchBarPlugin: FlutterViewController, FlutterPlugin {
     )
 
     let instance = TouchBarPlugin()
+    NotificationCenter.default.addObserver(instance, selector: #selector(bindTouchBar), name: NSApplication.didBecomeActiveNotification, object: nil)
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
@@ -33,7 +34,7 @@ public class TouchBarPlugin: FlutterViewController, FlutterPlugin {
       }
       Self.touchBars = []
       self.touchBar = TouchBar(items: children)
-      NSApp.mainWindow?.bind(NSBindingName(#keyPath(touchBar)), to: self, withKeyPath: #keyPath(touchBar), options: nil)
+      bindTouchBar()
     case "setTouchBarItem":
       guard let data = call.arguments as? NSDictionary,
         let id = data["id"] as? Int,
@@ -41,13 +42,15 @@ public class TouchBarPlugin: FlutterViewController, FlutterPlugin {
           return result("FlutterUnexpectedArguments")
       }
 
-      self.view.touchBar = Self.touchBars[0]
-
       for touchBar in Self.touchBars {
         touchBar.setTouchBarItem(ofId: id, andType: type, withData: data)
       }
     default:
       result("FlutterMethodNotImplemented")
     }
+  }
+
+  @objc func bindTouchBar() {
+    NSApp.mainWindow?.bind(NSBindingName(#keyPath(touchBar)), to: self, withKeyPath: #keyPath(touchBar), options: nil)
   }
 }
