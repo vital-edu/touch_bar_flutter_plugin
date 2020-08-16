@@ -41,6 +41,13 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
   int _counter = 0;
   TouchBar bar;
+
+  TouchBarButton actionButton = TouchBarButton(
+    label: "Increment 1",
+    backgroundColor: Colors.green,
+    iconPosition: ImagePosition.right,
+  );
+
   TouchBarLabel counterLabel = new TouchBarLabel(
     'Counter: 0',
     textColor: Colors.red,
@@ -50,7 +57,46 @@ class _MyHomePageState extends State<MyHomePage> {
     textColor: Colors.blue,
   );
 
-  _incrementCounter() {
+  void _invertOperatorIfNeeded() {
+    Function onClick;
+    String label;
+    Color color;
+    ImagePosition position;
+    if (_counter >= 10) {
+      onClick = _decrementCounter;
+      label = 'Decrement 1';
+      color = Colors.red;
+      position = ImagePosition.left;
+    } else if (_counter <= 0) {
+      onClick = _incrementCounter;
+      label = 'Increment 1';
+      color = Colors.green;
+      position = ImagePosition.right;
+    } else {
+      return; // do not invert operator
+    }
+
+    setState(() {
+      actionButton.onClick = onClick;
+      actionButton.label = label;
+      actionButton.backgroundColor = color;
+      actionButton.iconPosition = position;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+      counterLabel.label = 'Counter: $_counter';
+      counterLabel.textColor = colors[_counter % colors.length];
+      timesTwoCounterLabel.label = 'Counter: ${_counter * 2}';
+      timesTwoCounterLabel.textColor = colors[(_counter + 1) % colors.length];
+    });
+
+    _invertOperatorIfNeeded();
+  }
+
+  void _incrementCounter() {
     setState(() {
       _counter++;
       counterLabel.label = 'Counter: $_counter';
@@ -58,6 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
       timesTwoCounterLabel.label = 'Counter: ${_counter * 2}';
       timesTwoCounterLabel.textColor = colors[(_counter + 1) % colors.length];
     });
+
+    _invertOperatorIfNeeded();
   }
 
   @override
@@ -72,14 +120,10 @@ class _MyHomePageState extends State<MyHomePage> {
       key: 'plus',
     );
 
+    actionButton.icon = image;
+    actionButton.onClick = _incrementCounter;
     bar = TouchBar(children: [
-      TouchBarButton(
-        label: "Increment +1",
-        backgroundColor: Colors.green,
-        onClick: _incrementCounter,
-        icon: image,
-        iconPosition: ImagePosition.left,
-      ),
+      actionButton,
       TouchBarLabel('Red Label', textColor: Colors.red),
       TouchBarLabel('Blue Label', textColor: Colors.blue),
       counterLabel,
@@ -91,13 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
           TouchBarLabel('Yello Label', textColor: Colors.yellow),
           TouchBarLabel('Pink Label', textColor: Colors.pink),
           timesTwoCounterLabel,
-          TouchBarButton(
-            label: "Increment +1",
-            backgroundColor: Colors.yellow,
-            onClick: _incrementCounter,
-            icon: image,
-            iconPosition: ImagePosition.right,
-          ),
+          actionButton,
         ],
         showCloseButton: true,
       ),
