@@ -32,7 +32,7 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
       )
     }
 
-    if let position = itemData["imagePosition"] as? String {
+    if let position = itemData["iconPosition"] as? String {
       button.imagePosition = ImagePosition(position).toImagePosition()
     }
 
@@ -40,6 +40,20 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
     button.bezelColor = NSColor(fromRGBA: rgbaBackgroundColor)
 
     self.view = button
+  }
+
+  func update(data: NSDictionary ) {
+    if let label = data["label"] as? String {
+      (self.view as! NSButton).title = label
+    } else if let accessibilityLabel = data["accessibilityLabel"] as? String {
+      (self.view as! NSButton).setAccessibilityLabel(accessibilityLabel)
+    } else if let backgroundColor = data["backgroundColor"] as? NSDictionary {
+      (self.view as! NSButton).bezelColor = NSColor(fromRGBA: backgroundColor)
+    } else if let icon = data["icon"] as? TouchBarImage {
+      (self.view as! NSButton).image = icon.image
+    } else if let iconPosition = data["iconPosition"] as? String {
+      (self.view as! NSButton).imagePosition = ImagePosition(iconPosition).toImagePosition()
+    }
   }
 
   @objc func handleButtonClick(_ sender: NSButton) {
