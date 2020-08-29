@@ -13,7 +13,7 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
     // extract item data
     let label = itemData["label"] as? String ?? ""
     let accessibilityLabel = itemData["accessibilityLabel"] as? String
-    let rgbaBackgroundColor = itemData["backgroundColor"] as? NSDictionary
+    let backgroundColor = itemData["backgroundColor"] as? NSColor
     self.onClick = itemData["onClick"] as? String
 
     let button: NSButton!
@@ -37,18 +37,18 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
     }
 
     button.setAccessibilityLabel(accessibilityLabel)
-    button.bezelColor = NSColor(fromRGBA: rgbaBackgroundColor)
+    button.bezelColor = backgroundColor
 
     self.view = button
   }
 
-  func update(data: NSDictionary ) {
+  func update(data: NSDictionary) {
     if let label = data["label"] as? String {
       (self.view as! NSButton).title = label
     } else if let accessibilityLabel = data["accessibilityLabel"] as? String {
       (self.view as! NSButton).setAccessibilityLabel(accessibilityLabel)
-    } else if let backgroundColor = data["backgroundColor"] as? NSDictionary {
-      (self.view as! NSButton).bezelColor = NSColor(fromRGBA: backgroundColor)
+    } else if let backgroundColor = data["backgroundColor"] as? NSColor {
+      (self.view as! NSButton).bezelColor = backgroundColor
     } else if let icon = data["icon"] as? TouchBarImage {
       (self.view as! NSButton).image = icon.image
     } else if let iconPosition = data["iconPosition"] as? String {

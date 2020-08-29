@@ -11,23 +11,23 @@ class TouchBarLabel: NSCustomTouchBarItem, TouchBarItem {
     // extract item data
     guard let label = itemData["label"] as? String else { return nil }
     let accessibilityLabel = itemData["accessibilityLabel"] as? String
-    let rgbaColor = itemData["color"] as? NSDictionary
+    let textColor = itemData["color"] as? NSColor
 
     // setup NSTextField with extracted data
     let textField = NSTextField(labelWithString: label)
     textField.setAccessibilityLabel(accessibilityLabel)
-    textField.textColor = NSColor(fromRGBA: rgbaColor)
+    textField.textColor = textColor
 
     self.view = textField
   }
 
-  func update(data: NSDictionary ) {
+  func update(data: NSDictionary) {
     if let label = data["label"] as? String {
       (self.view as! NSTextField).stringValue = label
     } else if let accessibilityLabel = data["accessibilityLabel"] as? String {
       (self.view as! NSTextField).setAccessibilityLabel(accessibilityLabel)
-    } else if let rgbaColor = data["color"] as? NSDictionary {
-      (self.view as! NSTextField).textColor = NSColor(fromRGBA: rgbaColor)
+    } else if let textColor = data["color"] as? NSColor {
+      (self.view as! NSTextField).textColor = textColor
     }
   }
 

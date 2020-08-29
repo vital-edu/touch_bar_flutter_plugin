@@ -6,7 +6,6 @@ import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
 
-import '../extensions/color_extension.dart';
 import '../labeled_image.dart';
 import '../touch_bar_image.dart';
 import '../touch_bar_item.dart';
@@ -68,7 +67,7 @@ class TouchBarButton extends TouchBarItem {
   }
 
   set backgroundColor(Color newValue) {
-    updateProperty('backgroundColor', newValue: newValue.toRGBA());
+    updateProperty('backgroundColor', newValue: newValue);
     _backgroundColor = newValue;
   }
 
@@ -105,8 +104,7 @@ class TouchBarButton extends TouchBarItem {
     if (label != null) map['label'] = label;
     if (accessibilityLabel != null)
       map['accessibilityLabel'] = accessibilityLabel;
-    if (backgroundColor != null)
-      map['backgroundColor'] = backgroundColor.toRGBA();
+    if (backgroundColor != null) map['backgroundColor'] = backgroundColor;
     if (_onClick != null) map['onClick'] = _onClick;
     if (icon != null) map['icon'] = icon;
 

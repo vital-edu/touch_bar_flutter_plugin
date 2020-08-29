@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -15,10 +16,15 @@ class TouchBarMessageCodec extends StandardMessageCodec {
   /// Type discriminators 0 through 127 inclusive are reserved for use by the
   /// base class, so we need add new discriminators starting from 128.
   static const int _kTouchBarImage = 128;
+  static const int _kTouchBarColor = 129;
 
   @override
   void writeValue(WriteBuffer buffer, dynamic value) {
-    if (value is TouchBarImage) {
+    if (value is Color) {
+      buffer.putUint8(_kTouchBarColor);
+
+      super.writeValue(buffer, value.value);
+    } else if (value is TouchBarImage) {
       buffer.putUint8(_kTouchBarImage);
 
       writeValue(buffer, value.key);

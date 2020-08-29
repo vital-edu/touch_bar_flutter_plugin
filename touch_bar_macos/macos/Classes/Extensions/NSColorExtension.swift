@@ -3,13 +3,20 @@
 // found in the LICENSE file.
 
 extension NSColor {
-  convenience init?(fromRGBA rgba: NSDictionary?) {
-    guard let red = rgba?["red"] as? CGFloat,
-      let green = rgba?["green"] as? CGFloat,
-      let blue = rgba?["blue"] as? CGFloat,
-      let alpha = rgba?["alpha"] as? CGFloat else {
-      return nil
+  convenience init(fromARGB argb: String) {
+    var colors: [CGFloat] = []
+    for index in stride(from: 0, to: argb.count, by: 2) {
+      let start = argb.index(argb.startIndex, offsetBy: index)
+      let end = argb.index(start, offsetBy: 2)
+      let decimalRepresentation = Int(argb[start..<end], radix: 16)!
+      colors.append(CGFloat(decimalRepresentation) / 255.0)
     }
-    self.init(deviceRed: red, green: green, blue: blue, alpha: alpha)
+
+    self.init(
+        red: colors[1],
+        green: colors[2],
+        blue: colors[3],
+        alpha: colors[0]
+    )
   }
 }

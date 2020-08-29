@@ -4,7 +4,6 @@
 
 import 'dart:ui';
 
-import '../extensions/color_extension.dart';
 import '../touch_bar_item.dart';
 
 /// A touch bar item with a text with a single style.
@@ -34,7 +33,7 @@ class TouchBarLabel extends TouchBarItem {
   }
 
   set textColor(Color newValue) {
-    this.updateProperty('color', newValue: newValue.toRGBA());
+    this.updateProperty('color', newValue: newValue);
     this._textColor = newValue;
   }
 
@@ -53,7 +52,7 @@ class TouchBarLabel extends TouchBarItem {
         'type': type,
         'label': label,
         'accessibilityLabel': accessibilityLabel,
-        'color': textColor.toRGBA(),
+        'color': textColor,
       };
 
   @override
