@@ -111,8 +111,17 @@ abstract class TouchBarItem extends AbstractTouchBarItem {
 
 /// The base type for touch bar items that contain others touchbar items
 abstract class TouchBarWrapper extends AbstractTouchBarItem {
-  TouchBarWrapper({this.children = const []});
+  TouchBarWrapper({List<TouchBarItem> children}) : this._children = children;
+
+  List<TouchBarItem> get children => _children;
+  set children(List<TouchBarItem> newValue) {
+    this.updateProperty(
+      'children',
+      newValue: newValue.map((item) => item.toMap()).toList(),
+    );
+    this._children = newValue;
+  }
 
   /// The subitems of [this].
-  final List<TouchBarItem> children;
+  List<TouchBarItem> _children;
 }
