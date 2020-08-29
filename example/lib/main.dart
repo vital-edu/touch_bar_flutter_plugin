@@ -39,8 +39,23 @@ class _MyHomePageState extends State<MyHomePage> {
     Colors.orange,
     Colors.brown,
   ];
+  TouchBarPopover popover = TouchBarPopover(
+    label: 'Options',
+    iconPosition: ImagePosition.left,
+    children: [
+      TouchBarLabel('Yello Label', textColor: Colors.yellow),
+      TouchBarLabel('Pink Label', textColor: Colors.pink),
+    ],
+    showCloseButton: true,
+  );
   int _counter = 0;
   TouchBar bar;
+  TouchBarImage plusImage;
+  TouchBarImage minusImage;
+  TouchBarImage menuImage;
+  TouchBarImage menu2Image;
+  TouchBarLabel popoverLabel1 = TouchBarLabel('Popover 1');
+  TouchBarLabel popoverLabel2 = TouchBarLabel('Popover 2');
 
   TouchBarButton actionButton = TouchBarButton(
     label: "Increment 1",
@@ -60,18 +75,34 @@ class _MyHomePageState extends State<MyHomePage> {
   void _invertOperatorIfNeeded() {
     Function onClick;
     String label;
+    String popoverLabel;
     Color color;
     ImagePosition position;
+    bool popoverShowCloseButton;
+    TouchBarImage operatorImage;
+    TouchBarImage popoverImage;
+    List<TouchBarItem> popoverChildren;
+
     if (_counter >= 10) {
+      popoverShowCloseButton = false;
       onClick = _decrementCounter;
       label = 'Decrement 1';
       color = Colors.red;
       position = ImagePosition.left;
+      popoverLabel = 'Menu 2';
+      operatorImage = minusImage;
+      popoverImage = menu2Image;
+      popoverChildren = [timesTwoCounterLabel, popoverLabel1, actionButton];
     } else if (_counter <= 0) {
+      popoverShowCloseButton = true;
       onClick = _incrementCounter;
       label = 'Increment 1';
       color = Colors.green;
       position = ImagePosition.right;
+      popoverLabel = 'Menu 1';
+      operatorImage = plusImage;
+      popoverImage = menuImage;
+      popoverChildren = [actionButton, popoverLabel2, timesTwoCounterLabel];
     } else {
       return; // do not invert operator
     }
@@ -81,6 +112,13 @@ class _MyHomePageState extends State<MyHomePage> {
       actionButton.label = label;
       actionButton.backgroundColor = color;
       actionButton.iconPosition = position;
+      actionButton.icon = operatorImage;
+
+      popover.iconPosition = position;
+      popover.label = popoverLabel;
+      popover.showCloseButton = popoverShowCloseButton;
+      popover.icon = popoverImage;
+      popover.children = popoverChildren;
     });
   }
 
@@ -115,35 +153,39 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadAssyncData() async {
-    final image = await TouchBarImage.loadFrom(
+    final plusImage = await TouchBarImage.loadFrom(
       path: 'assets/icons/plus.png',
-      key: 'plus',
+    );
+    final minusImage = await TouchBarImage.loadFrom(
+      path: 'assets/icons/minus.png',
+    );
+    final menuImage = await TouchBarImage.loadFrom(
+      path: 'assets/icons/menu.png',
+    );
+    final menu2Image = await TouchBarImage.loadFrom(
+      path: 'assets/icons/menu-2.png',
     );
 
-    actionButton.icon = image;
+    actionButton.icon = plusImage;
     actionButton.onClick = _incrementCounter;
+
+    popover.icon = menuImage;
+
     bar = TouchBar(children: [
       actionButton,
       TouchBarLabel('Red Label', textColor: Colors.red),
       TouchBarLabel('Blue Label', textColor: Colors.blue),
       counterLabel,
-      TouchBarPopover(
-        label: 'Options',
-        icon: image,
-        iconPosition: ImagePosition.left,
-        children: [
-          TouchBarLabel('Yello Label', textColor: Colors.yellow),
-          TouchBarLabel('Pink Label', textColor: Colors.pink),
-          timesTwoCounterLabel,
-          actionButton,
-        ],
-        showCloseButton: true,
-      ),
+      popover,
     ]);
     setTouchBar(bar);
 
     setState(() {
       this.bar = bar;
+      this.plusImage = plusImage;
+      this.minusImage = minusImage;
+      this.menuImage = menuImage;
+      this.menu2Image = menu2Image;
     });
   }
 
