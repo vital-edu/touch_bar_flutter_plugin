@@ -9,7 +9,7 @@ class TouchBarPopover: NSPopoverTouchBarItem, TouchBarItem, NSTouchBarDelegate {
     let label = itemData["label"] as? String ?? ""
     let showCloseButton = itemData["showCloseButton"] as? Bool ?? true
 
-    self.collapsedRepresentationLabel = label
+    (self.collapsedRepresentation as! NSButton).title = label
     self.showsCloseButton = showCloseButton
 
     if let children = itemData["children"] as? NSArray {
@@ -17,14 +17,25 @@ class TouchBarPopover: NSPopoverTouchBarItem, TouchBarItem, NSTouchBarDelegate {
     }
 
     if let icon = itemData["icon"] as? TouchBarImage {
-      self.collapsedRepresentationImage = icon.image
+      (self.collapsedRepresentation as! NSButton).image = icon.image
     }
 
-    // The icon position must be the last property to be set
-    // because collapsedRepresentationImage and collapsedRepresentationLabel
-    // overrides it.
-    if let position = itemData["ImagePosition"] as? String {
-      (self.collapsedRepresentation as! NSButton).imagePosition = ImagePosition(position).toImagePosition()
+    if let iconPosition = itemData["iconPosition"] as? String {
+      (self.collapsedRepresentation as! NSButton).imagePosition = ImagePosition(iconPosition).toImagePosition()
+    }
+  }
+
+  func update(data: NSDictionary) {
+    if let label = data["label"] as? String {
+      (self.collapsedRepresentation as! NSButton).title = label
+    } else if let showCloseButton = data["showCloseButton"] as? Bool {
+      self.showsCloseButton = showCloseButton
+    } else if let icon = data["icon"] as? TouchBarImage {
+      (self.collapsedRepresentation as! NSButton).image = icon.image
+    } else if let iconPosition = data["iconPosition"] as? String {
+      (self.collapsedRepresentation as! NSButton).imagePosition = ImagePosition(iconPosition).toImagePosition()
+    } else if let children = data["children"] as? NSArray {
+      self.popoverTouchBar = TouchBar(items: children)
     }
   }
 

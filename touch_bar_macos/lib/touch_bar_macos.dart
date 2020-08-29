@@ -28,4 +28,17 @@ class TouchBarPlugin extends TouchBarPlatform {
 
     return null;
   }
+
+  @override
+  void setTouchBarItem({
+    int id,
+    String type,
+    Map<String, dynamic> dataChanges,
+  }) {
+    _channel.invokeMethod('setTouchBarItem', {
+      ...dataChanges,
+      'id': id,
+      'type': type,
+    });
+  }
 }

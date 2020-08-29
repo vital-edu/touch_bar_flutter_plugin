@@ -10,12 +10,15 @@ class TouchBar: NSTouchBar, NSTouchBarDelegate {
     self.items = items
     super.init()
 
-    let identifiers = (0...((items.count) - 1)).map {
-      NSTouchBarItem.Identifier(String($0))
+    let identifiers = items.map { (item) -> NSTouchBarItem.Identifier in
+      let id = (item as! NSDictionary)["id"] as! Int
+      return NSTouchBarItem.Identifier(String(id))
     }
 
     self.delegate = self
     self.defaultItemIdentifiers = identifiers
+
+    TouchBarPlugin.touchBars.append(self)
   }
 
   required init?(coder: NSCoder) {
@@ -23,12 +26,30 @@ class TouchBar: NSTouchBar, NSTouchBarDelegate {
   }
 
   public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
-    let position = Int(identifier.rawValue) ?? 0
+    let id = Int(identifier.rawValue)
 
-    guard let itemData = self.items.object(at: position) as? NSDictionary else {
+    guard case let itemData as NSDictionary = self.items.first(where: { ($0 as! NSDictionary)["id"] as? Int == id }) else {
       return nil
     }
 
     return touchBarItemFactory.get(touchBarItem: itemData, withIdentifier: identifier)
+  }
+
+  public func setTouchBarItem(ofId id: Int, andType type: String, withData data: NSDictionary) {
+    let identifier = NSTouchBarItem.Identifier(String(id))
+    guard let item = self.item(forIdentifier: identifier) else {
+      return
+    }
+
+    switch type {
+      case "Label":
+        (item as! TouchBarLabel).update(data: data)
+      case "Button":
+        (item as! TouchBarButton).update(data: data)
+      case "Popover":
+        (item as! TouchBarPopover).update(data: data)
+      default:
+        fatalError("TouchBarItem of type \(type) has not been implemented")
+    }
   }
 }

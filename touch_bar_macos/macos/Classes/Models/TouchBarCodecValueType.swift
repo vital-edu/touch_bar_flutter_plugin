@@ -2,6 +2,7 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-enum TouchBarCodecValueTupe: UInt8 {
+enum TouchBarCodecValueType: UInt8 {
   case Image = 128;
+  case Color = 129;
 }

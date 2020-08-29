@@ -10,6 +10,8 @@ export 'package:touch_bar_platform_interface/models/touch_bar_image.dart';
 export 'package:touch_bar_platform_interface/models/touch_bar_items/touch_bar_button.dart';
 export 'package:touch_bar_platform_interface/models/touch_bar_items/touch_bar_label.dart';
 export 'package:touch_bar_platform_interface/models/touch_bar_items/touch_bar_popover.dart';
+export 'package:touch_bar_platform_interface/models/touch_bar_item.dart'
+    show TouchBarItem;
 export 'package:touch_bar_platform_interface/models/labeled_image.dart'
     show ImagePosition;
 

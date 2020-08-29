@@ -6,7 +6,6 @@ import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
 
-import '../extensions/color_extension.dart';
 import '../labeled_image.dart';
 import '../touch_bar_image.dart';
 import '../touch_bar_item.dart';
@@ -23,13 +22,15 @@ class TouchBarButton extends TouchBarItem {
   /// - otherwise the [iconPosition] value will be used.
   TouchBarButton({
     String label,
-    this.accessibilityLabel,
-    this.backgroundColor,
+    String accessibilityLabel,
+    Color backgroundColor,
     TouchBarImage icon,
     ImagePosition iconPosition,
-    Function onClick,
-  })  : this.onClick = onClick.hashCode.toString(),
-        this.labeledIcon = LabeledImage(
+    VoidCallback onClick,
+  })  : this._onClick = onClick.hashCode.toString(),
+        this._accessibilityLabel = accessibilityLabel,
+        this._backgroundColor = backgroundColor,
+        this._labeledIcon = LabeledImage(
           image: icon,
           label: label,
           imagePosition: iconPosition,
@@ -39,35 +40,73 @@ class TouchBarButton extends TouchBarItem {
   @override
   String get type => "Button";
 
+  TouchBarImage get icon => _labeledIcon.image;
+  String get label => _labeledIcon.label;
+  ImagePosition get iconPosition => _labeledIcon.imagePosition;
+  String get accessibilityLabel => _accessibilityLabel;
+  Color get backgroundColor => _backgroundColor;
+
+  set icon(TouchBarImage newValue) {
+    updateProperty('icon', newValue: newValue);
+    this._labeledIcon.image = newValue;
+  }
+
+  set label(String newValue) {
+    updateProperty('label', newValue: newValue);
+    this._labeledIcon.label = newValue;
+  }
+
+  set iconPosition(ImagePosition newValue) {
+    updateProperty('iconPosition', newValue: newValue.toString());
+    this._labeledIcon.imagePosition = newValue;
+  }
+
+  set accessibilityLabel(String newValue) {
+    updateProperty('accessibilityLabel', newValue: newValue);
+    _accessibilityLabel = newValue;
+  }
+
+  set backgroundColor(Color newValue) {
+    updateProperty('backgroundColor', newValue: newValue);
+    _backgroundColor = newValue;
+  }
+
+  set onClick(Function newValue) {
+    // It is necessary to change only the [onClick] implementation.
+    // The hashcode should remain the same since it is used only to
+    // assure uniqueness.
+    this.methods['$_onClick'] = newValue;
+  }
+
   /// Icon with label and iconpPosition information.
-  final LabeledImage labeledIcon;
+  LabeledImage _labeledIcon;
 
   /// A succinct description of the [TouchBarButton] used to provide
   /// accessibility.
-  final String accessibilityLabel;
+  String _accessibilityLabel;
 
   /// Background color of te [TouchBarButton]
-  final Color backgroundColor;
+  Color _backgroundColor;
 
   /// The hash code of the method called when the button is clicked.
   ///
   /// The implementation of this method is stored in
   /// [AbstractTouchBarItem.methods].
-  final String onClick;
+  String _onClick;
 
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
+      'id': id,
       'type': type,
-      'ImagePosition': labeledIcon.imagePosition.toString(),
+      'iconPosition': iconPosition.toString(),
     };
-    if (labeledIcon.label != null) map['label'] = labeledIcon.label;
+    if (label != null) map['label'] = label;
     if (accessibilityLabel != null)
       map['accessibilityLabel'] = accessibilityLabel;
-    if (backgroundColor != null)
-      map['backgroundColor'] = backgroundColor.toRGBA();
-    if (onClick != null) map['onClick'] = onClick;
-    if (labeledIcon.image != null) map['icon'] = labeledIcon.image;
+    if (backgroundColor != null) map['backgroundColor'] = backgroundColor;
+    if (_onClick != null) map['onClick'] = _onClick;
+    if (icon != null) map['icon'] = icon;
 
     return map;
   }

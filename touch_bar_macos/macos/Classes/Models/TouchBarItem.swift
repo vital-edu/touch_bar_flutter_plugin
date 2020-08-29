@@ -6,4 +6,6 @@ import Foundation
 
 protocol TouchBarItem: NSTouchBarItem {
   init?(identifier: NSTouchBarItem.Identifier, withData itemData: NSDictionary);
+
+  func update(data: NSDictionary) -> Void
 }
