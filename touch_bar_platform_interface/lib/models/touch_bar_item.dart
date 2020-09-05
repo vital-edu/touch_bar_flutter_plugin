@@ -3,12 +3,13 @@
 // found in the LICENSE file.
 
 import 'package:meta/meta.dart';
+import 'package:touch_bar_platform_interface/models/touch_bar_items/mixins/renderable_item.dart';
 import 'package:touch_bar_platform_interface/touch_bar_platform_interface.dart';
 
 int nextTouchBarItemID = 0;
 
 /// The base type touch bar item that can be shown in a touch bar.
-abstract class AbstractTouchBarItem {
+abstract class AbstractTouchBarItem with RenderableItem {
   /// Constructor
   ///
   /// [methods] should be nil only if the TouchBarItem has no methods
@@ -72,22 +73,9 @@ abstract class AbstractTouchBarItem {
     );
   }
 
-  /// The unique sequential identifier of [this].
-  ///
-  /// Note: **This must be included in the [toMap] implementation.**
-  final int id = nextTouchBarItemID++;
-
   /// Convert all the TouchBarItem data to a Map that will be used
   /// in the platform channel communication.
   Map<String, dynamic> toMap();
-
-  /// Name of the concrete implementation of the AbstractTouchBarItem
-  /// that will be used to inform the specific platform implementation
-  /// which TouchBarItem must be rendered.
-  /// This is important because the platform channel communication
-  /// is performed through subset of the primitive types.
-  /// See https://flutter.dev/docs/development/platform-integration/platform-channels#codec.
-  String get type;
 
   /// Stores all the methods of this.
   ///
