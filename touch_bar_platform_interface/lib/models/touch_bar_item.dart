@@ -89,7 +89,8 @@ abstract class AbstractTouchBarItem with RenderableItem {
 /// The base type for touch bar items that do not contain others touchbars.
 ///
 /// Note: the [children] property is forbidden in [this]
-/// Use [TouchBarWrapper] to be able to use the [children] property.
+/// Use [TouchBarGuardian] or [TouchBarContainer]
+/// to be able to use the [children] property.
 abstract class TouchBarItem extends AbstractTouchBarItem {
   /// The [children] property is forbbiden in [this].
   final List<TouchBarItem> children = null;
@@ -97,10 +98,8 @@ abstract class TouchBarItem extends AbstractTouchBarItem {
   TouchBarItem({Map<String, Function> methods}) : super(methods: methods);
 }
 
-/// The base type for touch bar items that contain others touchbar items
-abstract class TouchBarWrapper extends AbstractTouchBarItem {
-  TouchBarWrapper({List<TouchBarItem> children}) : this._children = children;
-
+/// It makes touch bar items capable of having children.
+mixin _Parenthood on AbstractTouchBarItem {
   List<TouchBarItem> get children => _children;
   set children(List<TouchBarItem> newValue) {
     this.updateProperty(
@@ -112,4 +111,20 @@ abstract class TouchBarWrapper extends AbstractTouchBarItem {
 
   /// The subitems of [this].
   List<TouchBarItem> _children;
+}
+
+/// The base type for touch bar items that can have [children]
+/// an also be a child of another touch bar item.
+abstract class TouchBarGuardian extends AbstractTouchBarItem with _Parenthood {
+  TouchBarGuardian({List<TouchBarItem> children}) {
+    this._children = children;
+  }
+}
+
+/// The base type for touch bar items that can have [children]
+/// but cannot be a child of another touch bar item.
+abstract class TouchBarContainer extends TouchBarItem with _Parenthood {
+  TouchBarContainer({List<TouchBarItem> children}) {
+    this._children = children;
+  }
 }

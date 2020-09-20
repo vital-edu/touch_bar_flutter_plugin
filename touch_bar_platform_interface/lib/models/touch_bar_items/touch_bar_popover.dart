@@ -6,7 +6,7 @@ import 'package:touch_bar_platform_interface/models/labeled_image.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_image.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_item.dart';
 
-class TouchBarPopover extends TouchBarWrapper {
+class TouchBarPopover extends TouchBarGuardian {
   /// Creates a new [TouchBarPopover] item with the giver [label], [icon],
   /// [iconPosition] and [showCloseButton]
   TouchBarPopover({
