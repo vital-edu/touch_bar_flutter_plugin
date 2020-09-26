@@ -75,23 +75,23 @@ class TouchBarScrubber extends TouchBarContainer {
   }
 
   set selectedStyle(ScrubberSelectionStyle newValue) {
-    this.updateProperty('selectedStyle', newValue: newValue);
+    this.updateProperty('selectedStyle', newValue: newValue.toString());
     _selectedStyle = newValue;
   }
 
   set overlayStyle(ScrubberSelectionStyle newValue) {
-    this.updateProperty('overlayStyle', newValue: newValue);
+    this.updateProperty('overlayStyle', newValue: newValue.toString());
     _overlayStyle = newValue;
   }
 
   set mode(ScrubberMode newValue) {
-    this.updateProperty('mode', newValue: newValue);
+    this.updateProperty('mode', newValue: newValue.toString());
     _mode = newValue;
   }
 
   set isContinuos(bool newValue) {
     this.updateProperty('isContinuos', newValue: newValue);
-    _isContinuos = newValue;
+    _isContinuous = newValue;
   }
 
   @override
