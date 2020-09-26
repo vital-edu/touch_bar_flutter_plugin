@@ -54,8 +54,6 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
 
     self.scrubber.showsArrowButtons = showArrowButtons
     self.scrubber.isContinuous = isContinuous
-
-    self.scrubber.reloadData()
   }
 
   func update(data: NSDictionary) {
@@ -72,6 +70,20 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
       self.scrubber.showsArrowButtons = showArrowButtons
     } else if let isContinuous = data["isContinuous"] as? Bool {
       self.scrubber.isContinuous = isContinuous
+    } else if let children = data["children"] as? [NSDictionary] {
+      self.children = children.map{ (child) -> TouchBarScrubberItem in
+        switch child["type"] as? String {
+          case TouchBarScrubberItemType.image.rawValue:
+            return TouchBarScrubberImage(withData: child)
+          case TouchBarScrubberItemType.label.rawValue:
+            fallthrough
+          default:
+            return TouchBarScrubberLabel(withData: child)
+        }
+      }
+
+      self.scrubber.reloadData()
+      self.scrubber.scrubberLayout.invalidateLayout()
     }
   }
 
