@@ -5,13 +5,14 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
+import 'package:touch_bar_platform_interface/models/touch_bar_items/mixins/callable_item.dart';
 import 'package:touch_bar_platform_interface/models/identifier.dart';
 
 import '../labeled_image.dart';
 import '../touch_bar_image.dart';
 import '../touch_bar_item.dart';
 
-class TouchBarButton extends TouchBarItem {
+class TouchBarButton extends TouchBarItem with CallableItem {
   /// Creates a new [TouchBarButton] item with the given [label],
   /// [accessibilityLabel], [backgroundColor], [icon], [iconPosition]
   /// and [onClick].

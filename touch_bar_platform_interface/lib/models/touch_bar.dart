@@ -4,6 +4,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_item.dart';
+import 'package:touch_bar_platform_interface/models/touch_bar_items/mixins/callable_item.dart';
 
 /// The base type for a touch bar.
 abstract class AbstractTouchBar {
@@ -28,8 +29,10 @@ abstract class AbstractTouchBar {
   /// It is not a humand readable name nor the name of the property that it
   /// holds.
   ///
+  /// The [arguments] can be any value.
+  ///
   /// **This method should not be called manually.**
-  bool callMethod(String name);
+  bool callMethod(String name, dynamic arguments);
 }
 
 /// A standard touch bar with no touch bar item.
@@ -39,9 +42,11 @@ class TouchBar extends AbstractTouchBar {
   }) : super(children);
 
   @override
-  bool callMethod(String name) {
+  bool callMethod(String name, dynamic arguments) {
     for (AbstractTouchBarItem child in children) {
-      if (child.callMethod(name) == true) return true;
+      if (child is CallableItem && child.callMethod(name, arguments) == true) {
+        return true;
+      }
     }
     return false;
   }

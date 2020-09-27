@@ -5,59 +5,14 @@
 import 'package:meta/meta.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_items/mixins/renderable_item.dart';
 import 'package:touch_bar_platform_interface/touch_bar_platform_interface.dart';
+import 'package:touch_bar_platform_interface/models/touch_bar_items/mixins/callable_item.dart';
 
 int nextTouchBarItemID = 0;
 
 /// The base type touch bar item that can be shown in a touch bar.
 abstract class AbstractTouchBarItem with RenderableItem {
   /// Constructor
-  ///
-  /// [methods] should be nil only if the TouchBarItem has no methods
-  /// that will be called in the native platform.
-  ///
-  /// All the concrete implementation of this that contains actioons that
-  /// will be called in the native platform must be implemented following the
-  /// example below:
-  /// ```dart
-  /// class ConcreteTouchBarItem extends AbstractTouchBarItem {
-  ///   // [onAction] and [onAnotherAction] store just the hash code of the
-  ///   // implementation.
-  ///   final String onAction();
-  ///   final String onAnotherAction();
-  ///
-  ///   // [methods] will be used as single source of truth to the
-  ///   // implementation and [onAction] and [onAnotherAction] will be
-  ///   // used in the [toMap()].
-  ///   ConcreteTouchBarItem(Function onAction) :
-  ///     this.onAction = onAction.hashCode.toString(),
-  ///     this.onAnotherAction = onAction.hashCode.toString(),
-  ///     super(methods: {
-  ///       '${onAction.hashCode}': onAction,
-  ///       '${onAnotherAction.hashCode}': onAnotherAction,
-  ///     });
-  /// }
-  /// ```
-  AbstractTouchBarItem({this.methods = const {}});
-
-  /// Searches the method named [name] in this and execute it.
-  ///
-  /// It returns true if a method of the given [name] was found and executed.
-  ///
-  /// The [name] has the value of [Function.hashCode].
-  /// It is not a humand readable name nor the name of the property that it
-  /// holds.
-  ///
-  /// **This method should not be called manually.**
-  bool callMethod(String name) {
-    for (String functionName in methods.keys) {
-      if (functionName == name) {
-        methods[name]();
-        return true;
-      }
-    }
-
-    return false;
-  }
+  AbstractTouchBarItem({this.children});
 
   /// Updates the property named [name] with a [newValue].
   ///
@@ -79,11 +34,14 @@ abstract class AbstractTouchBarItem with RenderableItem {
 
   /// Stores all the methods of this.
   ///
-  /// The [Map.keys] stores the hash code of the methods
+  /// The [Map.keys] stores the identifiers of the methods
   /// and [Map.values] stores the method implementation.
   ///
   /// Note: **This should not be included in the [toMap] implementation.**
-  final Map<String, Function> methods;
+  final Map<String, Function> methods = {};
+
+  /// The subitems of [this].
+  final List<TouchBarItem> children;
 }
 
 /// The base type for touch bar items that do not contain others touchbars.
@@ -95,7 +53,7 @@ abstract class TouchBarItem extends AbstractTouchBarItem {
   /// The [children] property is forbbiden in [this].
   final List<TouchBarItem> children = null;
 
-  TouchBarItem({Map<String, Function> methods}) : super(methods: methods);
+  TouchBarItem();
 }
 
 /// It makes touch bar items capable of having children.
@@ -115,7 +73,8 @@ mixin _Parenthood on AbstractTouchBarItem {
 
 /// The base type for touch bar items that can have [children]
 /// an also be a child of another touch bar item.
-abstract class TouchBarGuardian extends AbstractTouchBarItem with _Parenthood {
+abstract class TouchBarGuardian extends AbstractTouchBarItem
+    with _Parenthood, CallableItem {
   TouchBarGuardian({List<TouchBarItem> children}) {
     this._children = children;
   }
@@ -123,7 +82,8 @@ abstract class TouchBarGuardian extends AbstractTouchBarItem with _Parenthood {
 
 /// The base type for touch bar items that can have [children]
 /// but cannot be a child of another touch bar item.
-abstract class TouchBarContainer extends TouchBarItem with _Parenthood {
+abstract class TouchBarContainer extends TouchBarItem
+    with _Parenthood, CallableItem {
   TouchBarContainer({List<TouchBarItem> children}) {
     this._children = children;
   }

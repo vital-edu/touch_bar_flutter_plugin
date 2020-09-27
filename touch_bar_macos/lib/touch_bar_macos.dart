@@ -23,7 +23,7 @@ class TouchBarPlugin extends TouchBarPlatform {
   setTouchBar(AbstractTouchBar touchBar) {
     _channel.invokeMethod('setTouchBar', touchBar.toMap());
     _channel.setMethodCallHandler((call) async {
-      touchBar.callMethod(call.method);
+      touchBar.callMethod(call.method, call.arguments);
     });
 
     return null;

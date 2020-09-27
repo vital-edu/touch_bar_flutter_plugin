@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:meta/meta.dart';
+import 'package:touch_bar_platform_interface/models/touch_bar_items/mixins/callable_item.dart';
 import 'package:touch_bar_platform_interface/models/identifier.dart';
 
 import '../touch_bar_item.dart';
@@ -12,7 +13,7 @@ typedef void OnItemAction(int itemIndex);
 enum ScrubberMode { fixed, free }
 enum ScrubberSelectionStyle { roundedBackground, outlineOverlay, none }
 
-class TouchBarScrubber extends TouchBarContainer {
+class TouchBarScrubber extends TouchBarContainer with CallableItem {
   TouchBarScrubber({
     @required List<TouchBarScrubberItem> children,
     OnItemAction onSelect,
