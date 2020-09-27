@@ -19,6 +19,8 @@ class TouchBarPluginReader: FlutterStandardReader {
         let hexRepresentation = String(decimalRepresentation.uint32Value, radix: 16)
 
         return NSColor.init(fromARGB: hexRepresentation)
+      case TouchBarCodecValueType.Identifier.rawValue:
+        return self.readValue() as! String
       default:
         return super.readValue(ofType: type)
     }

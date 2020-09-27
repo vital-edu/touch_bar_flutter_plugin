@@ -8,6 +8,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_image.dart';
+import 'package:touch_bar_platform_interface/models/identifier.dart';
 
 class TouchBarMessageCodec extends StandardMessageCodec {
   /// Constructor
@@ -17,6 +18,7 @@ class TouchBarMessageCodec extends StandardMessageCodec {
   /// base class, so we need add new discriminators starting from 128.
   static const int _kTouchBarImage = 128;
   static const int _kTouchBarColor = 129;
+  static const int _kTouchBarUniqueId = 130;
 
   @override
   void writeValue(WriteBuffer buffer, dynamic value) {
@@ -32,6 +34,10 @@ class TouchBarMessageCodec extends StandardMessageCodec {
       final Uint8List imageData = value.data.buffer.asUint8List();
       writeSize(buffer, imageData.length);
       buffer.putUint8List(imageData);
+    } else if (value is Identifier) {
+      buffer.putUint8(_kTouchBarUniqueId);
+
+      writeValue(buffer, value.toString());
     } else {
       super.writeValue(buffer, value);
     }
