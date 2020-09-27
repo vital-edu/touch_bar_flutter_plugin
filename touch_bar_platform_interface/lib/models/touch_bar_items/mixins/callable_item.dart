@@ -26,7 +26,7 @@ import '../../touch_bar_item.dart';
 ///     this.onAction = onAction;
 ///   }
 /// }
-/// ``
+/// ```
 mixin CallableItem on AbstractTouchBarItem {
   /// Searches the method named [name] in this and execute it.
   ///
