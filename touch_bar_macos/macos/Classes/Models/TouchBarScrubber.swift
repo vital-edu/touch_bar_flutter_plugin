@@ -10,6 +10,9 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
   var children = [TouchBarScrubberItem]()
   let touchBarFactory = TouchBarItemFactory()
 
+  var onSelect: String?
+  var onHighlight: String?
+
   required init?(identifier: NSTouchBarItem.Identifier, withData itemData: NSDictionary) {
     super.init(identifier: identifier)
 
@@ -39,6 +42,12 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
     self.scrubber.showsArrowButtons = showArrowButtons
     self.scrubber.isContinuous = isContinuous
 
+    if let onSelect = itemData["onSelect"] as? String {
+      self.onSelect = onSelect
+    }
+    if let onHighlight = itemData["onHighlight"] as? String {
+      self.onHighlight = onHighlight
+    }
     if let style = itemData["selectedStyle"] as? String {
       let selectedStyle = ScrubberSelectionStyle(style)
       self.scrubber.selectionBackgroundStyle = selectedStyle.toSelectionStyle()
@@ -112,6 +121,18 @@ extension TouchBarScrubber: NSScrubberDataSource, NSScrubberDelegate {
     }
 
     return NSScrubberItemView()
+  }
+
+  func scrubber(_ scrubber: NSScrubber, didSelectItemAt selectedIndex: Int) {
+    if let onSelect = self.onSelect {
+      TouchBarPlugin.channel.invokeMethod(onSelect, arguments: selectedIndex)
+    }
+  }
+
+  func scrubber(_ scrubber: NSScrubber, didHighlightItemAt highlightedIndex: Int) {
+    if let onHighlight = self.onHighlight {
+      TouchBarPlugin.channel.invokeMethod(onHighlight, arguments: highlightedIndex)
+    }
   }
 }
 
