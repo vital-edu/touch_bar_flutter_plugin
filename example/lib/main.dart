@@ -309,7 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('You are highlightining the color'),
+                  Text('You are highlightining the color '),
                   SizedBox(
                     width: 20,
                     height: 20,
