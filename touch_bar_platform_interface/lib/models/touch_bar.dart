@@ -24,7 +24,7 @@ abstract class AbstractTouchBar {
   ///
   /// It returns true if a method of the given [name] was found and executed.
   ///
-  /// The [name] has the value of [Function.hashCode].
+  /// The [name] has the value of [Identifier.toString()].
   /// It is not a humand readable name nor the name of the property that it
   /// holds.
   ///

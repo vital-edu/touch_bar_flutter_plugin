@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:meta/meta.dart';
+import 'package:touch_bar_platform_interface/models/identifier.dart';
 
 import '../touch_bar_item.dart';
 import 'touch_bar_scrubber_item.dart';
@@ -24,24 +25,25 @@ class TouchBarScrubber extends TouchBarContainer {
   })  : assert(children.length != 0),
         this._selectedStyle = selectedStyle,
         this._overlayStyle = overlayStyle,
-        this._onSelect = onSelect.hashCode.toString(),
-        this._onHighlight = onHighlight.hashCode.toString(),
         this._showArrowButtons = showArrowButtons,
         this._mode = mode,
         this._isContinuous = isContinuous,
-        super(children: children);
+        super(children: children) {
+    this.onSelect = onSelect;
+    this.onHighlight = onHighlight;
+  }
 
-  /// The hash code of the method called when the item is selected.
+  /// The unique identifier of the method called when the item is selected.
   ///
   /// The implementation of this method is stored in
-  /// [AbstractTouchBarItem.methods].
-  String _onSelect;
+  /// [this.methods].
+  final Identifier _onSelect = Identifier.uniq();
 
-  /// The hash code of the method called when the item is selected.
+  /// The unique identifier of the method called when the item is highlighted.
   ///
   /// The implementation of this method is stored in
-  /// [AbstractTouchBarItem.methods].
-  String _onHighlight;
+  /// [this.methods].
+  final Identifier _onHighlight = Identifier.uniq();
 
   bool _showArrowButtons;
   ScrubberSelectionStyle _selectedStyle;
@@ -55,16 +57,16 @@ class TouchBarScrubber extends TouchBarContainer {
   ScrubberMode get mode => _mode;
   bool get isContinuous => _isContinuous;
 
-  set onSelect(Function newValue) {
+  set onSelect(OnItemAction newValue) {
     // It is necessary to change only the [onSelect] implementation.
-    // The hashcode should remain the same since it is used only to
+    // The identifier should remain the same since it is used only to
     // assure uniqueness.
     this.methods['$_onSelect'] = newValue;
   }
 
-  set onHighlight(Function newValue) {
+  set onHighlight(OnItemAction newValue) {
     // It is necessary to change only the [onHighlight] implementation.
-    // The hashcode should remain the same since it is used only to
+    // The identifier should remain the same since it is used only to
     // assure uniqueness.
     this.methods['$_onHighlight'] = newValue;
   }
@@ -101,8 +103,8 @@ class TouchBarScrubber extends TouchBarContainer {
       'type': type,
       'children': children.map((item) => item.toMap()).toList(),
     };
-    // if (onSelect != null) map['onSelect'] = onSelect;
-    // if (onHighlight != null) map['onHighlight'] = onHighlight;
+    if (_onSelect != null) map['onSelect'] = _onSelect;
+    if (_onHighlight != null) map['onHighlight'] = _onHighlight;
     if (showArrowButtons != null) map['showArrowButtons'] = showArrowButtons;
     if (selectedStyle != null) map['selectedStyle'] = selectedStyle.toString();
     if (overlayStyle != null) map['overlayStyle'] = overlayStyle.toString();

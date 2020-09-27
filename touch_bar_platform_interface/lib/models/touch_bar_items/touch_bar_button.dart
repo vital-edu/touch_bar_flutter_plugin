@@ -5,6 +5,7 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
+import 'package:touch_bar_platform_interface/models/identifier.dart';
 
 import '../labeled_image.dart';
 import '../touch_bar_image.dart';
@@ -27,15 +28,16 @@ class TouchBarButton extends TouchBarItem {
     TouchBarImage icon,
     ImagePosition iconPosition,
     VoidCallback onClick,
-  })  : this._onClick = onClick.hashCode.toString(),
-        this._accessibilityLabel = accessibilityLabel,
+  })  : this._accessibilityLabel = accessibilityLabel,
         this._backgroundColor = backgroundColor,
         this._labeledIcon = LabeledImage(
           image: icon,
           label: label,
           imagePosition: iconPosition,
         ),
-        super(methods: {'${onClick.hashCode}': onClick});
+        super() {
+    this.onClick = onClick;
+  }
 
   @override
   String get type => "Button";
@@ -71,9 +73,9 @@ class TouchBarButton extends TouchBarItem {
     _backgroundColor = newValue;
   }
 
-  set onClick(Function newValue) {
+  set onClick(VoidCallback newValue) {
     // It is necessary to change only the [onClick] implementation.
-    // The hashcode should remain the same since it is used only to
+    // The identifier should remain the same since it is used only to
     // assure uniqueness.
     this.methods['$_onClick'] = newValue;
   }
@@ -88,11 +90,11 @@ class TouchBarButton extends TouchBarItem {
   /// Background color of te [TouchBarButton]
   Color _backgroundColor;
 
-  /// The hash code of the method called when the button is clicked.
+  /// The unique identifier of the method called when the button is clicked.
   ///
   /// The implementation of this method is stored in
-  /// [AbstractTouchBarItem.methods].
-  String _onClick;
+  /// [this.methods].
+  final Identifier _onClick = Identifier.uniq();
 
   @override
   Map<String, dynamic> toMap() {
