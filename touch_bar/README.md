@@ -5,19 +5,34 @@ A Flutter plugin for interact with the touch bar of supported models of MacBook 
 ## Why this is a federated plugin?
 
 Although the TouchBar is a hardware that exists solely in some versions of the MacBook Pro, we cannot guarantee that this will always be the case.
- 
-Besides, in the nearish future, the browsers can add a public API to allow  web pages interaction with the TouchBar. Actually, there is [an issue that requests a TouchBar Web API in the WebKit][1].  
+
+Besides, in the nearish future, the browsers can add a public API to allow  web pages interaction with the TouchBar. Actually, there is [an issue that requests a TouchBar Web API in the WebKit][1].
 
 # Todo
 
-Support touch bar items:
+## Planned Releases
 
-- [ ] LabelTouchBarItem
-- [ ] ButtonTouchBarItem
-- [ ] SliderTouchBarItem: provides a slider control for choosing a value in a range
-- [ ] GroupTouchBarItem: a item that contains another items
-- [ ] PopoverTouchBarItem: provides a two-state control that, when touched or pressed, expands into its second state, showing the contents of a bar it owns
-- [ ] ColorPickerTouchBarItem: provide a system-defined color picker
-- [ ] CandidateListTouchBarItem: provide a list of textual suggestions for the current text view
+### Alpha version
 
-[1]: https://bugs.webkit.org/show_bug.cgi?id=178736 
+- [X] TouchBarLabel
+- [x] TouchBarButton
+- [X] TouchBarPopover
+- [X] TouchBarScrubber
+- [X] TouchBarSpace: a blank space.
+
+### Beta version
+
+**Estimated release on Q4 2020**
+
+- [ ] TouchBarSlider
+- [ ] TouchBarGroup
+- [ ] TouchBarSegmentedControl
+- [ ] TouchBarColorPicker
+
+### Stable version
+
+**Estimated release on Q1 2021**
+
+- [ ] Widget support
+
+[1]: https://bugs.webkit.org/show_bug.cgi?id=178736

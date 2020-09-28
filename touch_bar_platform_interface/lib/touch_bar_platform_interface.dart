@@ -5,7 +5,6 @@
 import 'dart:async';
 
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:touch_bar_macos/touch_bar_macos.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_item.dart';
 
@@ -22,7 +21,7 @@ abstract class TouchBarPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static TouchBarPlatform _instance = TouchBarPlugin();
+  static TouchBarPlatform _instance;
 
   /// The default instance of [TouchBarPlatform] to use.
   ///

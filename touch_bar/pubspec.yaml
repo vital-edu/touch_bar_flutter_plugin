@@ -1,7 +1,8 @@
 name: touch_bar
 description: A Flutter plugin to interact with the touch bar of supported models of MacBook Pro, providing dynamic contextual controls.
-homepage: https://github.com/vital-edu/touch_bar_flutter_plugin/touch_bar
-version: 0.0.1
+version: 0.0.1-alpha
+homepage: https://github.com/vital-edu/touch_bar_flutter_plugin/tree/master/touch_bar
+repository: https://github.com/vital-edu/touch_bar_flutter_plugin/
 
 flutter:
   plugin:
@@ -12,15 +13,13 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  touch_bar_platform_interface:
-    path: ../touch_bar_platform_interface
+  touch_bar_platform_interface: ^0.0.1
   # The design on https://flutter.dev/go/federated-plugins was to leave
   # this constraint as "any". We cannot do it right now as it fails pub publish
   # validation, so we set a ^ constraint.
   # TODO(vital_edu): Revisit this (either update this part in the  design or the pub tool).
   # https://github.com/flutter/flutter/issues/46264
-  touch_bar_macos:
-    path: ../touch_bar_macos
+  touch_bar_macos: ^0.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -29,4 +28,4 @@ dev_dependencies:
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.10.0"
+  flutter: ">=1.20.0 <2.0.0"
