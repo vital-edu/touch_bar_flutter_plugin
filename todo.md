@@ -1,19 +1,20 @@
 
+# Planned Releases
 
----- NS
-CandidateListTouchBarItem
-ColorPickerTouchBarItem          | TouchBarColorPicker
-CustomTouchBarItem               |
-GroupTouchBarItem                | TouchBarGroup
-PopoverTouchBarItem              | TouchBarPopover
-SharingServicePickerTouchBarItem |
-SliderTouchBarItem               | TouchBarSlider
+## Alpha version
 
-- Custom TouchBarItem:
-TextField                      | TouchBarLabel
-Button                         | TouchBarButton
-SegmentedControl               | TouchBarSegmentedControl
-Scrubber                       |TouchBarScrubber
------
+- [X] TouchBarLabel
+- [x] TouchBarButton
+- [X] TouchBarPopover
+- [X] TouchBarScrubber
+- [ ] TouchBarSpacer
 
-TouchBarSpacer
+## Beta version
+
+- [ ] TouchBarSlider
+- [ ] TouchBarGroup
+- [ ] TouchBarSegmentedControl
+- [ ] TouchBarColorPicker
+
+## Stable version
+- Widget support

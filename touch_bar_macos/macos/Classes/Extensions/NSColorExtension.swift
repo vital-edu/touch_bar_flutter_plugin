@@ -7,16 +7,16 @@ extension NSColor {
     var colors: [CGFloat] = []
     for index in stride(from: 0, to: argb.count, by: 2) {
       let start = argb.index(argb.startIndex, offsetBy: index)
-      let end = argb.index(start, offsetBy: 2)
+      let end = argb.index(start, offsetBy: 2, limitedBy: argb.endIndex) ?? argb.endIndex
       let decimalRepresentation = Int(argb[start..<end], radix: 16)!
       colors.append(CGFloat(decimalRepresentation) / 255.0)
     }
 
     self.init(
-        red: colors[1],
-        green: colors[2],
-        blue: colors[3],
-        alpha: colors[0]
+      red: colors.indices.contains(1) ? colors[1] : 0,
+      green: colors.indices.contains(2) ? colors[2] : 0,
+      blue: colors.indices.contains(3) ? colors[3] : 0,
+      alpha: colors.indices.contains(0) ? colors[0] : 1
     )
   }
 }

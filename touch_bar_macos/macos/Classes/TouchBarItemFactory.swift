@@ -17,6 +17,8 @@ class TouchBarItemFactory {
         return TouchBarButton(identifier: identifier, withData: touchBarItem)
       case "Popover":
         return TouchBarPopover(identifier: identifier, withData: touchBarItem)
+      case "Scrubber":
+        return TouchBarScrubber(identifier: identifier, withData: touchBarItem)
       default:
         return nil
     }

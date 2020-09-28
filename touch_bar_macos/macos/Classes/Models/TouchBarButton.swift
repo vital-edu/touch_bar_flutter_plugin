@@ -59,7 +59,7 @@ class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
   @objc func handleButtonClick(_ sender: NSButton) {
     if let onClick = self.onClick {
       TouchBarPlugin.channel.invokeMethod(onClick, arguments: nil)
-    };
+    }
   }
 
   required init?(coder: NSCoder) {

@@ -48,6 +48,8 @@ class TouchBar: NSTouchBar, NSTouchBarDelegate {
         (item as! TouchBarButton).update(data: data)
       case "Popover":
         (item as! TouchBarPopover).update(data: data)
+      case "Scrubber":
+        (item as! TouchBarScrubber).update(data: data)
       default:
         fatalError("TouchBarItem of type \(type) has not been implemented")
     }

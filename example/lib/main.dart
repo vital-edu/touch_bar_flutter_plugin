@@ -5,23 +5,40 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Color themeColor = Colors.blue;
+
+  void _changeThemeColor(Color color) {
+    setState(() {
+      themeColor = color;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: themeColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(
+        title: 'Flutter Demo Home Page',
+        changeThemeColor: _changeThemeColor,
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
+  final Function changeThemeColor;
+  MyHomePage({Key key, this.title, this.changeThemeColor}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -38,7 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
     Colors.grey,
     Colors.orange,
     Colors.brown,
+    Colors.white,
+    Colors.redAccent,
+    Colors.lime,
   ];
+  Color buttonColor = Colors.blue;
   TouchBarPopover popover = TouchBarPopover(
     label: 'Options',
     iconPosition: ImagePosition.left,
@@ -56,6 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
   TouchBarImage menu2Image;
   TouchBarLabel popoverLabel1 = TouchBarLabel('Popover 1');
   TouchBarLabel popoverLabel2 = TouchBarLabel('Popover 2');
+  TouchBarScrubber scrubber;
+  List<TouchBarScrubberItem> scrubberChildren = [];
+  bool isIncrementing = true;
+  bool isHighlightingTheColor = false;
+  Color highlghtColor = Colors.blue;
 
   TouchBarButton actionButton = TouchBarButton(
     label: "Increment 1",
@@ -83,7 +109,15 @@ class _MyHomePageState extends State<MyHomePage> {
     TouchBarImage popoverImage;
     List<TouchBarItem> popoverChildren;
 
+    bool scrubberShowArrowButtons;
+    bool scrubberIsContinuos;
+    ScrubberMode scrubberMode;
+    ScrubberSelectionStyle scrubberOverlayStyle;
+    ScrubberSelectionStyle scrubberSelectedStyle;
+    bool isIncrementing;
+
     if (_counter >= 10) {
+      isIncrementing = false;
       popoverShowCloseButton = false;
       onClick = _decrementCounter;
       label = 'Decrement 1';
@@ -93,7 +127,14 @@ class _MyHomePageState extends State<MyHomePage> {
       operatorImage = minusImage;
       popoverImage = menu2Image;
       popoverChildren = [timesTwoCounterLabel, popoverLabel1, actionButton];
+
+      scrubberShowArrowButtons = false;
+      scrubberIsContinuos = false;
+      scrubberMode = ScrubberMode.free;
+      scrubberOverlayStyle = ScrubberSelectionStyle.none;
+      scrubberSelectedStyle = ScrubberSelectionStyle.outlineOverlay;
     } else if (_counter <= 0) {
+      isIncrementing = true;
       popoverShowCloseButton = true;
       onClick = _incrementCounter;
       label = 'Increment 1';
@@ -103,6 +144,12 @@ class _MyHomePageState extends State<MyHomePage> {
       operatorImage = plusImage;
       popoverImage = menuImage;
       popoverChildren = [actionButton, popoverLabel2, timesTwoCounterLabel];
+
+      scrubberShowArrowButtons = true;
+      scrubberIsContinuos = true;
+      scrubberMode = ScrubberMode.fixed;
+      scrubberOverlayStyle = ScrubberSelectionStyle.outlineOverlay;
+      scrubberSelectedStyle = ScrubberSelectionStyle.roundedBackground;
     } else {
       return; // do not invert operator
     }
@@ -119,6 +166,14 @@ class _MyHomePageState extends State<MyHomePage> {
       popover.showCloseButton = popoverShowCloseButton;
       popover.icon = popoverImage;
       popover.children = popoverChildren;
+
+      scrubber.showArrowButtons = scrubberShowArrowButtons;
+      scrubber.isContinuos = scrubberIsContinuos;
+      scrubber.mode = scrubberMode;
+      scrubber.overlayStyle = scrubberOverlayStyle;
+      scrubber.selectedStyle = scrubberSelectedStyle;
+
+      this.isIncrementing = isIncrementing;
     });
   }
 
@@ -129,6 +184,12 @@ class _MyHomePageState extends State<MyHomePage> {
       counterLabel.textColor = colors[_counter % colors.length];
       timesTwoCounterLabel.label = 'Counter: ${_counter * 2}';
       timesTwoCounterLabel.textColor = colors[(_counter + 1) % colors.length];
+
+      scrubberChildren.add(TouchBarScrubberLabel(
+        "Another Color",
+        textColor: colors[_counter % colors.length],
+      ));
+      scrubber.children = scrubberChildren;
     });
 
     _invertOperatorIfNeeded();
@@ -141,9 +202,20 @@ class _MyHomePageState extends State<MyHomePage> {
       counterLabel.textColor = colors[_counter % colors.length];
       timesTwoCounterLabel.label = 'Counter: ${_counter * 2}';
       timesTwoCounterLabel.textColor = colors[(_counter + 1) % colors.length];
+
+      scrubberChildren.removeLast();
+      scrubber.children = scrubberChildren;
     });
 
     _invertOperatorIfNeeded();
+  }
+
+  void _onClick() {
+    if (isIncrementing) {
+      _incrementCounter();
+    } else {
+      _decrementCounter();
+    }
   }
 
   @override
@@ -165,6 +237,34 @@ class _MyHomePageState extends State<MyHomePage> {
     final menu2Image = await TouchBarImage.loadFrom(
       path: 'assets/icons/menu-2.png',
     );
+    scrubberChildren = [
+      ...colors
+          .asMap()
+          .map((idx, color) => MapEntry(
+              idx,
+              TouchBarScrubberLabel(
+                'Another Color $idx',
+                textColor: color,
+              )))
+          .values
+          .toList(),
+      TouchBarScrubberImage(plusImage),
+    ];
+    scrubber = TouchBarScrubber(
+        children: scrubberChildren,
+        selectedStyle: ScrubberSelectionStyle.roundedBackground,
+        overlayStyle: ScrubberSelectionStyle.outlineOverlay,
+        mode: ScrubberMode.fixed,
+        onSelect: (childId) {
+          setState(() => isHighlightingTheColor = false);
+          widget.changeThemeColor(
+            colors[childId % colors.length],
+          );
+        },
+        onHighlight: (childId) => this.setState(() {
+              isHighlightingTheColor = true;
+              highlghtColor = colors[childId % colors.length];
+            }));
 
     actionButton.icon = plusImage;
     actionButton.onClick = _incrementCounter;
@@ -177,6 +277,11 @@ class _MyHomePageState extends State<MyHomePage> {
       TouchBarLabel('Blue Label', textColor: Colors.blue),
       counterLabel,
       popover,
+      TouchBarPopover(
+        label: 'Colors',
+        children: [scrubber],
+        showCloseButton: true,
+      )
     ]);
     setTouchBar(bar);
 
@@ -199,6 +304,23 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            if (isHighlightingTheColor)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('You are highlightining the color '),
+                  SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: highlghtColor,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             Text(
               'You have pushed the button this many times:',
             ),
@@ -210,9 +332,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _onClick,
+        tooltip: 'Increment/Decrement',
         child: Icon(Icons.add),
+        backgroundColor: buttonColor,
       ),
     );
   }

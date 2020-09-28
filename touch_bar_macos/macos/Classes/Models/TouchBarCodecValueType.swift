@@ -5,4 +5,5 @@
 enum TouchBarCodecValueType: UInt8 {
   case Image = 128;
   case Color = 129;
+  case Identifier = 130;
 }
