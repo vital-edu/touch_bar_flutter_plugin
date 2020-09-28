@@ -18,6 +18,7 @@ export 'package:touch_bar_platform_interface/models/touch_bar_items/touch_bar_sc
     show TouchBarScrubber, ScrubberMode, ScrubberSelectionStyle;
 export 'package:touch_bar_platform_interface/models/touch_bar_items/touch_bar_scrubber_image.dart';
 export 'package:touch_bar_platform_interface/models/touch_bar_items/touch_bar_scrubber_item.dart';
+export 'package:touch_bar_platform_interface/models/touch_bar_items/touch_bar_space.dart';
 
 Future<void> setTouchBar(TouchBar touchBar) {
   return TouchBarPlatform.instance.setTouchBar(touchBar);

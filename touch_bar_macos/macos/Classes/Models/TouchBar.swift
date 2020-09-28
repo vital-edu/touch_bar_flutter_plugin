@@ -11,8 +11,13 @@ class TouchBar: NSTouchBar, NSTouchBarDelegate {
     super.init()
 
     let identifiers = items.map { (item) -> NSTouchBarItem.Identifier in
-      let id = (item as! NSDictionary)["id"] as! Int
-      return NSTouchBarItem.Identifier(String(id))
+      if let id = (item as! NSDictionary)["id"] as? Int {
+        return NSTouchBarItem.Identifier(String(id))
+      } else if let id = (item as! NSDictionary)["id"] as? String {
+        return NSTouchBarItem.Identifier(String(id))
+      }
+
+      fatalError("init(items:) touchbar item must have a valid id")
     }
 
     self.delegate = self
