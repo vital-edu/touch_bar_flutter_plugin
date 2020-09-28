@@ -64,8 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
     label: 'Options',
     iconPosition: ImagePosition.left,
     children: [
-      TouchBarLabel('Yello Label', textColor: Colors.yellow),
-      TouchBarLabel('Pink Label', textColor: Colors.pink),
+      TouchBarLabel('Yellow', textColor: Colors.yellow),
+      TouchBarSpace.small(),
+      TouchBarLabel('Pink', textColor: Colors.pink),
+      TouchBarSpace.large(),
+      TouchBarLabel('Red', textColor: Colors.red),
+      TouchBarSpace.flexible(),
+      TouchBarLabel('Blue', textColor: Colors.blue),
     ],
     showCloseButton: true,
   );
