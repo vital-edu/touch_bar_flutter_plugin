@@ -7,7 +7,7 @@
 - [x] TouchBarButton
 - [X] TouchBarPopover
 - [X] TouchBarScrubber
-- [ ] TouchBarSpacer
+- [X] TouchBarSpacer
 
 ## Beta version
 
