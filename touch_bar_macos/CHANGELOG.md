@@ -2,4 +2,7 @@
 - Initial open-source release.
 
 ## 0.0.1-alpha.1
-- Fix dependencies in pubspec
+- Fix dependencies in pubspec.
+
+## 0.0.1-alpha.2
+- Fix macos version in podspec.
