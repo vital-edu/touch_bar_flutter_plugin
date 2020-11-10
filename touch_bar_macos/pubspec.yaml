@@ -18,7 +18,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  touch_bar_platform_interface: ^0.0.0
   meta: ^1.1.8
 
 dev_dependencies:
