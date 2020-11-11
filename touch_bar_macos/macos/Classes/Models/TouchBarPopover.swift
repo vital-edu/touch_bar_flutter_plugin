@@ -2,6 +2,7 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
+@available(OSX 10.12.2, *)
 class TouchBarPopover: NSPopoverTouchBarItem, TouchBarItem, NSTouchBarDelegate {
   required init?(identifier: NSTouchBarItem.Identifier, withData itemData: NSDictionary) {
     super.init(identifier: identifier)

@@ -6,9 +6,9 @@ import FlutterMacOS
 import Foundation
 import AppKit
 
-@available(macOS 10.12.2, *)
 public class TouchBarPlugin: FlutterViewController, FlutterPlugin {
   static var channel: FlutterMethodChannel!
+  @available(OSX 10.12.2, *)
   static var touchBars: [TouchBar] = []
 
   public static func register(with registrar: FlutterPluginRegistrar) {
@@ -21,11 +21,20 @@ public class TouchBarPlugin: FlutterViewController, FlutterPlugin {
     )
 
     let instance = TouchBarPlugin()
-    NotificationCenter.default.addObserver(instance, selector: #selector(bindTouchBar), name: NSApplication.didBecomeActiveNotification, object: nil)
+
+    if #available(macOS 10.12.2, *) {
+      NotificationCenter.default.addObserver(instance, selector: #selector(bindTouchBar), name: NSApplication.didBecomeActiveNotification, object: nil)
+    }
+
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+    guard #available(macOS 10.12.2, *) else {
+      // The plugin will not be used in macOS version below 10.12.2.
+      return
+    }
+
     switch call.method {
     case "setTouchBar":
       guard let touchBarJson = (call.arguments as? NSDictionary)?["touch_bar"] as? NSDictionary,
@@ -50,6 +59,7 @@ public class TouchBarPlugin: FlutterViewController, FlutterPlugin {
     }
   }
 
+  @available(OSX 10.12.2, *)
   @objc func bindTouchBar() {
     NSApp.mainWindow?.bind(NSBindingName(#keyPath(touchBar)), to: self, withKeyPath: #keyPath(touchBar), options: nil)
   }

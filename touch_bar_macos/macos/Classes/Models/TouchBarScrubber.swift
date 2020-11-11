@@ -2,6 +2,7 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
+@available(OSX 10.12.2, *)
 class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
   static let ScrubberTextItemIdentifier = NSUserInterfaceItemIdentifier("ScrubberTextItem")
   static let ScrubberImageItemIdentifier = NSUserInterfaceItemIdentifier("ScrubberImageItem")
@@ -101,6 +102,7 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
   }
 }
 
+@available(OSX 10.12.2, *)
 extension TouchBarScrubber: NSScrubberDataSource, NSScrubberDelegate {
   func numberOfItems(for scrubber: NSScrubber) -> Int {
     return self.children.count
@@ -136,6 +138,7 @@ extension TouchBarScrubber: NSScrubberDataSource, NSScrubberDelegate {
   }
 }
 
+@available(OSX 10.12.2, *)
 extension TouchBarScrubber: NSScrubberFlowLayoutDelegate {
   func scrubber(_ scrubber: NSScrubber, layout: NSScrubberFlowLayout, sizeForItemAt itemIndex: Int) -> NSSize {
     let margin: CGFloat = 14

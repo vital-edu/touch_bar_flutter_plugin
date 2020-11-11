@@ -4,6 +4,7 @@
 
 import Foundation
 
+@available(OSX 10.12.2, *)
 class TouchBarButton: NSCustomTouchBarItem, TouchBarItem {
   var onClick : String?
 

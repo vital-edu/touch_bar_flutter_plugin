@@ -4,6 +4,7 @@
 
 import Foundation
 
+@available(OSX 10.12.2, *)
 class TouchBarLabel: NSCustomTouchBarItem, TouchBarItem {
   required init?(identifier: NSTouchBarItem.Identifier, withData itemData: NSDictionary) {
     super.init(identifier: identifier)

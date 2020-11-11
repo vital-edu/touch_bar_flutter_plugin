@@ -4,6 +4,7 @@
 
 import Foundation
 
+@available(OSX 10.12.2, *)
 class TouchBarItemFactory {
   public func get(touchBarItem: NSDictionary, withIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
     guard let type: String = touchBarItem["type"] as? String else {
