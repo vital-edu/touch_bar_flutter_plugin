@@ -6,3 +6,6 @@
 
 ## 0.0.1-alpha.2
 - Remove pubspec.lock.
+
+## 0.0.1-alpha.3
+- Use TouchBarMessageCodec to support messages containing objects like color and images.

@@ -2,7 +2,7 @@ name: touch_bar_platform_interface
 # NOTE: We strongly prefer non-breaking changes, even at the expense of a
 # less-clean API. See https://flutter.dev/go/platform-interface-breaking-changes
 description: A common platform interface for the touch_bar plugin.
-version: 0.0.1-alpha.2
+version: 0.0.1-alpha.3
 homepage: https://github.com/vital-edu/touch_bar_flutter_plugin/tree/master/touch_bar_platform_interface
 repository: https://github.com/vital-edu/touch_bar_flutter_plugin/
 
