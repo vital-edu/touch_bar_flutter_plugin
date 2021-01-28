@@ -9,8 +9,8 @@ class TouchBarLabel extends TouchBarItem with LabelableItem {
   /// Creates a new label item with the given [identifier] and [label].
   TouchBarLabel(
     String label, {
-    Color textColor,
-    String accessibilityLabel,
+    Color? textColor,
+    String? accessibilityLabel,
   }) {
     this._label = label;
     this._textColor = textColor;

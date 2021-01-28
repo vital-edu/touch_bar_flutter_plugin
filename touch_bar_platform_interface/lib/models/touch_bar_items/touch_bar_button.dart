@@ -23,12 +23,12 @@ class TouchBarButton extends TouchBarItem with CallableItem {
   /// - [ImagePosition.left] if [iconPosition] is null;
   /// - otherwise the [iconPosition] value will be used.
   TouchBarButton({
-    String label,
-    String accessibilityLabel,
-    Color backgroundColor,
-    TouchBarImage icon,
-    ImagePosition iconPosition,
-    VoidCallback onClick,
+    String? label,
+    String? accessibilityLabel,
+    Color? backgroundColor,
+    TouchBarImage? icon,
+    ImagePosition? iconPosition,
+    VoidCallback? onClick,
   })  : this._accessibilityLabel = accessibilityLabel,
         this._backgroundColor = backgroundColor,
         this._labeledIcon = LabeledImage(
@@ -43,53 +43,53 @@ class TouchBarButton extends TouchBarItem with CallableItem {
   @override
   String get type => "Button";
 
-  TouchBarImage get icon => _labeledIcon.image;
-  String get label => _labeledIcon.label;
-  ImagePosition get iconPosition => _labeledIcon.imagePosition;
-  String get accessibilityLabel => _accessibilityLabel;
-  Color get backgroundColor => _backgroundColor;
+  TouchBarImage? get icon => _labeledIcon?.image;
+  String? get label => _labeledIcon?.label;
+  ImagePosition? get iconPosition => _labeledIcon?.imagePosition;
+  String? get accessibilityLabel => _accessibilityLabel;
+  Color? get backgroundColor => _backgroundColor;
 
-  set icon(TouchBarImage newValue) {
+  set icon(TouchBarImage? newValue) {
     updateProperty('icon', newValue: newValue);
-    this._labeledIcon.image = newValue;
+    this._labeledIcon?.image = newValue;
   }
 
-  set label(String newValue) {
+  set label(String? newValue) {
     updateProperty('label', newValue: newValue);
-    this._labeledIcon.label = newValue;
+    this._labeledIcon?.label = newValue;
   }
 
-  set iconPosition(ImagePosition newValue) {
+  set iconPosition(ImagePosition? newValue) {
     updateProperty('iconPosition', newValue: newValue.toString());
-    this._labeledIcon.imagePosition = newValue;
+    this._labeledIcon?.imagePosition = newValue;
   }
 
-  set accessibilityLabel(String newValue) {
+  set accessibilityLabel(String? newValue) {
     updateProperty('accessibilityLabel', newValue: newValue);
     _accessibilityLabel = newValue;
   }
 
-  set backgroundColor(Color newValue) {
+  set backgroundColor(Color? newValue) {
     updateProperty('backgroundColor', newValue: newValue);
     _backgroundColor = newValue;
   }
 
-  set onClick(VoidCallback newValue) {
+  set onClick(VoidCallback? newValue) {
     // It is necessary to change only the [onClick] implementation.
     // The identifier should remain the same since it is used only to
     // assure uniqueness.
-    this.methods['$_onClick'] = newValue;
+    if (newValue != null) this.methods['$_onClick'] = newValue;
   }
 
   /// Icon with label and iconpPosition information.
-  LabeledImage _labeledIcon;
+  LabeledImage? _labeledIcon;
 
   /// A succinct description of the [TouchBarButton] used to provide
   /// accessibility.
-  String _accessibilityLabel;
+  String? _accessibilityLabel;
 
   /// Background color of te [TouchBarButton]
-  Color _backgroundColor;
+  Color? _backgroundColor;
 
   /// The unique identifier of the method called when the button is clicked.
   ///
@@ -108,7 +108,7 @@ class TouchBarButton extends TouchBarItem with CallableItem {
     if (accessibilityLabel != null)
       map['accessibilityLabel'] = accessibilityLabel;
     if (backgroundColor != null) map['backgroundColor'] = backgroundColor;
-    if (_onClick != null) map['onClick'] = _onClick;
+    map['onClick'] = _onClick;
     if (icon != null) map['icon'] = icon;
 
     return map;

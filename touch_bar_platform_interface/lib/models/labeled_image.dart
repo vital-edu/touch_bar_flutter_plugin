@@ -24,9 +24,9 @@ enum ImagePosition {
 
 /// Stores a [label], [image], and the [imagePosition].
 class LabeledImage {
-  String label;
-  TouchBarImage image;
-  ImagePosition imagePosition;
+  String? label;
+  TouchBarImage? image;
+  ImagePosition? imagePosition;
 
   /// Creates an instance of a [LabeledImage] with the given [image], [label]
   /// and [imagePosition].
