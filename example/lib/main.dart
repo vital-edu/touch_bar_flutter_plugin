@@ -11,9 +11,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Color themeColor = Colors.blue;
+  MaterialColor themeColor = Colors.blue;
 
-  void _changeThemeColor(Color color) {
+  void _changeThemeColor(MaterialColor color) {
     setState(() {
       themeColor = color;
     });
@@ -38,7 +38,11 @@ class _MyAppState extends State<MyApp> {
 class MyHomePage extends StatefulWidget {
   final String title;
   final Function changeThemeColor;
-  MyHomePage({Key key, this.title, this.changeThemeColor}) : super(key: key);
+  MyHomePage({
+    Key? key,
+    required this.title,
+    required this.changeThemeColor,
+  }) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -75,14 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
     showCloseButton: true,
   );
   int _counter = 0;
-  TouchBar bar;
-  TouchBarImage plusImage;
-  TouchBarImage minusImage;
-  TouchBarImage menuImage;
-  TouchBarImage menu2Image;
+  TouchBar? bar;
+  TouchBarImage? plusImage;
+  TouchBarImage? minusImage;
+  TouchBarImage? menuImage;
+  TouchBarImage? menu2Image;
   TouchBarLabel popoverLabel1 = TouchBarLabel('Popover 1');
   TouchBarLabel popoverLabel2 = TouchBarLabel('Popover 2');
-  TouchBarScrubber scrubber;
+  late TouchBarScrubber scrubber;
   List<TouchBarScrubberItem> scrubberChildren = [];
   bool isIncrementing = true;
   bool isHighlightingTheColor = false;
@@ -104,14 +108,14 @@ class _MyHomePageState extends State<MyHomePage> {
   );
 
   void _invertOperatorIfNeeded() {
-    Function onClick;
+    Function()? onClick;
     String label;
     String popoverLabel;
     Color color;
     ImagePosition position;
     bool popoverShowCloseButton;
-    TouchBarImage operatorImage;
-    TouchBarImage popoverImage;
+    TouchBarImage? operatorImage;
+    TouchBarImage? popoverImage;
     List<TouchBarItem> popoverChildren;
 
     bool scrubberShowArrowButtons;
