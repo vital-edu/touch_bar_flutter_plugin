@@ -7,8 +7,8 @@ part of 'mixins/labelable_item.dart';
 class TouchBarScrubberLabel extends TouchBarScrubberItem with LabelableItem {
   TouchBarScrubberLabel(
     String label, {
-    Color textColor,
-    String accessibilityLabel,
+    Color? textColor,
+    String? accessibilityLabel,
   }) {
     this._label = label;
     this._textColor = textColor;

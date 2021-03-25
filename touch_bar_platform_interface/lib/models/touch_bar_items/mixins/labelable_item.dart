@@ -14,33 +14,33 @@ part '../touch_bar_scrubber_label.dart';
 /// Provides the required properties and methods for touch bar items that
 /// behaves like a label.
 mixin LabelableItem on RenderableItem {
-  String get label => _label;
-  String get accessibilityLabel => _accessibilityLabel;
-  Color get textColor => _textColor;
+  String? get label => _label;
+  String? get accessibilityLabel => _accessibilityLabel;
+  Color? get textColor => _textColor;
 
-  set label(String newValue) {
+  set label(String? newValue) {
     this.updateProperty('label', newValue: newValue);
     this._label = newValue;
   }
 
-  set accessibilityLabel(String newValue) {
+  set accessibilityLabel(String? newValue) {
     this.updateProperty('accessibilityLabel', newValue: newValue);
     this._accessibilityLabel = newValue;
   }
 
-  set textColor(Color newValue) {
+  set textColor(Color? newValue) {
     this.updateProperty('color', newValue: newValue);
     this._textColor = newValue;
   }
 
   /// Label text
-  String _label;
+  String? _label;
 
   /// A succinct description of the [TouchBarLabel] used to provide accessibility
-  String _accessibilityLabel;
+  String? _accessibilityLabel;
 
   /// Color of te label text
-  Color _textColor;
+  Color? _textColor;
 
   Map<String, dynamic> toMap() => {
         'id': id,

@@ -38,19 +38,19 @@ mixin CallableItem on AbstractTouchBarItem {
   ///
   /// **This method should not be called manually.**
   bool callMethod(String name, dynamic arguments) {
-    Function implementation = methods[name];
+    Function? implementation = methods[name];
     if (implementation != null) {
       if (arguments == null) {
-        methods[name]();
+        implementation();
       } else {
-        methods[name](arguments);
+        implementation(arguments);
       }
       return true;
     }
 
     if (children == null) return false;
 
-    for (AbstractTouchBarItem child in children) {
+    for (AbstractTouchBarItem child in children!) {
       if (child is CallableItem && child.callMethod(name, arguments) == true) {
         return true;
       }

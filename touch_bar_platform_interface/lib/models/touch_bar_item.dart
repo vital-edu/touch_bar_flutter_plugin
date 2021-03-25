@@ -41,7 +41,7 @@ abstract class AbstractTouchBarItem with RenderableItem {
   final Map<String, Function> methods = {};
 
   /// The subitems of [this].
-  final List<TouchBarItem> children;
+  final List<TouchBarItem>? children;
 }
 
 /// The base type for touch bar items that do not contain others touchbars.
@@ -51,31 +51,31 @@ abstract class AbstractTouchBarItem with RenderableItem {
 /// to be able to use the [children] property.
 abstract class TouchBarItem extends AbstractTouchBarItem {
   /// The [children] property is forbbiden in [this].
-  final List<TouchBarItem> children = null;
+  final List<TouchBarItem>? children = null;
 
   TouchBarItem();
 }
 
 /// It makes touch bar items capable of having children.
 mixin _Parenthood on AbstractTouchBarItem {
-  List<TouchBarItem> get children => _children;
-  set children(List<TouchBarItem> newValue) {
+  List<TouchBarItem>? get children => _children;
+  set children(List<TouchBarItem>? newValue) {
     this.updateProperty(
       'children',
-      newValue: newValue.map((item) => item.toMap()).toList(),
+      newValue: newValue?.map((item) => item.toMap()).toList(),
     );
     this._children = newValue;
   }
 
   /// The subitems of [this].
-  List<TouchBarItem> _children;
+  List<TouchBarItem>? _children;
 }
 
 /// The base type for touch bar items that can have [children]
 /// an also be a child of another touch bar item.
 abstract class TouchBarGuardian extends AbstractTouchBarItem
     with _Parenthood, CallableItem {
-  TouchBarGuardian({List<TouchBarItem> children}) {
+  TouchBarGuardian({List<TouchBarItem>? children}) {
     this._children = children;
   }
 }
@@ -84,7 +84,7 @@ abstract class TouchBarGuardian extends AbstractTouchBarItem
 /// but cannot be a child of another touch bar item.
 abstract class TouchBarContainer extends TouchBarItem
     with _Parenthood, CallableItem {
-  TouchBarContainer({List<TouchBarItem> children}) {
+  TouchBarContainer({List<TouchBarItem>? children}) {
     this._children = children;
   }
 }

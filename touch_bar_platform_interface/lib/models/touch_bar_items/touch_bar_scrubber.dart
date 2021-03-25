@@ -2,7 +2,6 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-import 'package:meta/meta.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_items/mixins/callable_item.dart';
 import 'package:touch_bar_platform_interface/models/identifier.dart';
 
@@ -15,9 +14,9 @@ enum ScrubberSelectionStyle { roundedBackground, outlineOverlay, none }
 
 class TouchBarScrubber extends TouchBarContainer with CallableItem {
   TouchBarScrubber({
-    @required List<TouchBarScrubberItem> children,
-    OnItemAction onSelect,
-    OnItemAction onHighlight,
+    required List<TouchBarScrubberItem> children,
+    OnItemAction? onSelect,
+    OnItemAction? onHighlight,
     bool showArrowButtons = false,
     ScrubberSelectionStyle selectedStyle = ScrubberSelectionStyle.none,
     ScrubberSelectionStyle overlayStyle = ScrubberSelectionStyle.none,
@@ -30,8 +29,8 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
         this._mode = mode,
         this._isContinuous = isContinuous,
         super(children: children) {
-    this.onSelect = onSelect;
-    this.onHighlight = onHighlight;
+    this.onSelect = onSelect!;
+    this.onHighlight = onHighlight!;
   }
 
   /// The unique identifier of the method called when the item is selected.
@@ -102,15 +101,15 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
     Map<String, dynamic> map = {
       'id': id,
       'type': type,
-      'children': children.map((item) => item.toMap()).toList(),
+      'children': children?.map((item) => item.toMap()).toList(),
     };
-    if (_onSelect != null) map['onSelect'] = _onSelect;
-    if (_onHighlight != null) map['onHighlight'] = _onHighlight;
-    if (showArrowButtons != null) map['showArrowButtons'] = showArrowButtons;
-    if (selectedStyle != null) map['selectedStyle'] = selectedStyle.toString();
-    if (overlayStyle != null) map['overlayStyle'] = overlayStyle.toString();
-    if (mode != null) map['mode'] = mode.toString();
-    if (isContinuous != null) map['isContinuous'] = isContinuous;
+    map['onSelect'] = _onSelect;
+    map['onHighlight'] = _onHighlight;
+    map['showArrowButtons'] = showArrowButtons;
+    map['selectedStyle'] = selectedStyle.toString();
+    map['overlayStyle'] = overlayStyle.toString();
+    map['mode'] = mode.toString();
+    map['isContinuous'] = isContinuous;
 
     return map;
   }

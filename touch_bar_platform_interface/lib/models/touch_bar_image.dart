@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
 
 class TouchBarImage {
   final String key;
@@ -26,10 +25,10 @@ class TouchBarImage {
   /// [key] must be unique, if none is provided the path will be used as
   /// the [key] value.
   static Future<TouchBarImage> loadFrom({
-    @required String path,
-    String key,
+    required String path,
+    String? key,
   }) async {
-    assert(path != null && path != '');
+    assert(path != '');
     if (key == null) key = path;
 
     ByteData data = await rootBundle.load(path);
@@ -37,5 +36,5 @@ class TouchBarImage {
   }
 
   /// Create an instance of TouchBarImage with a [key] and [data].
-  TouchBarImage({@required this.key, @required this.data});
+  TouchBarImage({required this.key, required this.data});
 }

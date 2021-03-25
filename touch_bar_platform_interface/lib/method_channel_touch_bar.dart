@@ -17,7 +17,7 @@ const MethodChannel _channel = MethodChannel(
 /// An implementation of [TouchBarPlatform] that uses method channels.
 class MethodChannelTouchBar extends TouchBarPlatform {
   @override
-  Future<void> setTouchBar(AbstractTouchBar touchBar) {
+  Future<void> setTouchBar(AbstractTouchBar touchBar) async {
     _channel.invokeMethod('setTouchBar', touchBar.toMap());
     _channel.setMethodCallHandler((call) async {
       touchBar.callMethod(call.method, call.arguments);
@@ -28,12 +28,12 @@ class MethodChannelTouchBar extends TouchBarPlatform {
 
   @override
   Future<void> setTouchBarItem({
-    int id,
-    String type,
-    Map<String, dynamic> dataChanges,
+    int? id,
+    String? type,
+    Map<String, dynamic>? dataChanges,
   }) {
     return _channel.invokeMethod('setTouchBarItem', {
-      ...dataChanges,
+      ...dataChanges!,
       'id': id,
       'type': type,
     });

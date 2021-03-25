@@ -1,8 +1,6 @@
 // Copyright (c) 2020 Eduardo Vital Alencar Cunha
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
-import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_item.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_items/mixins/callable_item.dart';
 
@@ -38,7 +36,7 @@ abstract class AbstractTouchBar {
 /// A standard touch bar with no touch bar item.
 class TouchBar extends AbstractTouchBar {
   const TouchBar({
-    @required List<AbstractTouchBarItem> children,
+    required List<AbstractTouchBarItem> children,
   }) : super(children);
 
   @override

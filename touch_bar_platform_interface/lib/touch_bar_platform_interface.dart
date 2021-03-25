@@ -57,9 +57,9 @@ abstract class TouchBarPlatform extends PlatformInterface {
   /// ```
   ///
   void setTouchBarItem({
-    int id,
-    String type,
-    Map<String, dynamic> dataChanges,
+    int? id,
+    String? type,
+    Map<String, dynamic>? dataChanges,
   }) {
     throw UnimplementedError('setTouchBar() has not been implemented.');
   }
