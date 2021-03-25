@@ -2,6 +2,8 @@
 
 A Flutter plugin for interact with the touch bar of supported models of MacBook Pro, providing dynamic contextual controls.
 
+![image](https://user-images.githubusercontent.com/24459435/111548272-beb19100-877a-11eb-88dc-f54b0b046bd3.png)
+
 ## Why this is a federated plugin?
 
 Although the TouchBar is a hardware that exists solely in some versions of the MacBook Pro, we cannot guarantee that this will always be the case.
