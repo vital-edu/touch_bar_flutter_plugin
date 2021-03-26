@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     showCloseButton: true,
   );
   int _counter = 0;
-  TouchBar? bar;
+  late TouchBar bar;
   TouchBarImage? plusImage;
   TouchBarImage? minusImage;
   TouchBarImage? menuImage;
