@@ -22,12 +22,14 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
     ScrubberSelectionStyle overlayStyle = ScrubberSelectionStyle.none,
     ScrubberMode mode = ScrubberMode.free,
     bool isContinuous = true,
+    bool shouldUnselectAfterHit = false,
   })  : assert(children.length != 0),
         this._selectedStyle = selectedStyle,
         this._overlayStyle = overlayStyle,
         this._showArrowButtons = showArrowButtons,
         this._mode = mode,
         this._isContinuous = isContinuous,
+        this._shouldUnselectAfterHit = shouldUnselectAfterHit,
         super(children: children) {
     this.onSelect = onSelect!;
     this.onHighlight = onHighlight!;
@@ -50,12 +52,14 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
   ScrubberSelectionStyle _overlayStyle;
   ScrubberMode _mode;
   bool _isContinuous;
+  bool _shouldUnselectAfterHit;
 
   bool get showArrowButtons => _showArrowButtons;
   ScrubberSelectionStyle get selectedStyle => _selectedStyle;
   ScrubberSelectionStyle get overlayStyle => _overlayStyle;
   ScrubberMode get mode => _mode;
   bool get isContinuous => _isContinuous;
+  bool get shouldUnselectAfterHit => _shouldUnselectAfterHit;
 
   set onSelect(OnItemAction newValue) {
     // It is necessary to change only the [onSelect] implementation.
@@ -96,6 +100,11 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
     _isContinuous = newValue;
   }
 
+  set shouldUnselectAfterHit(bool newValue) {
+    this.updateProperty('shouldUnselectAfterHit', newValue: newValue);
+    _shouldUnselectAfterHit = newValue;
+  }
+
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
@@ -110,6 +119,7 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
     map['overlayStyle'] = overlayStyle.toString();
     map['mode'] = mode.toString();
     map['isContinuous'] = isContinuous;
+    map['shouldUnselectAfterHit'] = shouldUnselectAfterHit;
 
     return map;
   }
