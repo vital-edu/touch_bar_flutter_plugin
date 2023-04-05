@@ -12,7 +12,7 @@ flutter:
         fileName: touch_bar_macos.dart
 
 environment:
-  sdk: ">=2.12.0-0 <3.0.0"
+  sdk: '>=2.18.2 <3.0.0'
   flutter: ">=1.12.8"
 
 dependencies:

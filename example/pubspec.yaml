@@ -4,15 +4,17 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0-0 <3.0.0"
+  sdk: '>=2.18.2 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  touch_bar: ^0.1.0-alpha.1
-  cupertino_icons: ^1.0.2
+
+  cupertino_icons: ^1.0.5
 
 dependency_overrides:
+  touch_bar: 
+    path: ../touch_bar
   touch_bar_platform_interface:
     path: ../touch_bar_platform_interface
   touch_bar_macos:
