@@ -264,6 +264,7 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedStyle: ScrubberSelectionStyle.roundedBackground,
         overlayStyle: ScrubberSelectionStyle.outlineOverlay,
         mode: ScrubberMode.fixed,
+        shouldUnselectAfterHit: true,
         onSelect: (childId) {
           setState(() => isHighlightingTheColor = false);
           widget.changeThemeColor(
