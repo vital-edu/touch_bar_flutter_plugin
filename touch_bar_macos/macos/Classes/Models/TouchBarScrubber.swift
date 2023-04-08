@@ -40,7 +40,7 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
 
     let showArrowButtons = itemData["showArrowButtons"] as? Bool ?? false
     let isContinuous = itemData["isContinuous"] as? Bool ?? true
-    let shouldUnselectAfterHit = itemData["shouldUnselectAfterHit"] as? Bool ?? false
+    self.unselectAfterHit = itemData["unselectAfterHit"] as? Bool ?? false
 
     self.scrubber.showsArrowButtons = showArrowButtons
     self.scrubber.isContinuous = isContinuous
@@ -66,7 +66,6 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
 
     self.scrubber.showsArrowButtons = showArrowButtons
     self.scrubber.isContinuous = isContinuous
-    self.unselectAfterHit = shouldUnselectAfterHit
   }
 
   func update(data: NSDictionary) {
@@ -83,8 +82,8 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
       self.scrubber.showsArrowButtons = showArrowButtons
     } else if let isContinuous = data["isContinuous"] as? Bool {
       self.scrubber.isContinuous = isContinuous
-    } else if let shouldUnselectAfterHit = data["shouldUnselectAfterHit"] as? Bool {
-        self.unselectAfterHit = shouldUnselectAfterHit
+    } else if let unselectAfterHit = data["unselectAfterHit"] as? Bool {
+      self.unselectAfterHit = unselectAfterHit
     } else if let children = data["children"] as? [NSDictionary] {
       self.children = children.map{ (child) -> TouchBarScrubberItem in
         switch child["type"] as? String {
@@ -96,7 +95,7 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
             return TouchBarScrubberLabel(withData: child)
         }
       }
-        
+
       self.scrubber.reloadData()
       self.scrubber.scrubberLayout.invalidateLayout()
     }
@@ -133,15 +132,22 @@ extension TouchBarScrubber: NSScrubberDataSource, NSScrubberDelegate {
   func scrubber(_ scrubber: NSScrubber, didSelectItemAt selectedIndex: Int) {
     if let onSelect = self.onSelect {
       TouchBarPlugin.channel.invokeMethod(onSelect, arguments: selectedIndex)
-        if(self.unselectAfterHit) {
-            self.scrubber.selectedIndex = -1
-        }
     }
   }
 
   func scrubber(_ scrubber: NSScrubber, didHighlightItemAt highlightedIndex: Int) {
     if let onHighlight = self.onHighlight {
       TouchBarPlugin.channel.invokeMethod(onHighlight, arguments: highlightedIndex)
+    }
+  }
+
+  func didFinishInteracting(with scrubber: NSScrubber) {
+    if self.unselectAfterHit {
+      // unselect the item here guarantee that the item will be unselected when the user only hit the item
+      // and also when they drag the finger until the final selected item.
+      // Because the dragging action runs with animation we need to set the selected item using the
+      // animator: if not, the style of the item would not reflect the unselected state.
+      scrubber.animator().selectedIndex = -1
     }
   }
 }
