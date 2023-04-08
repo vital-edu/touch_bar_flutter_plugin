@@ -2,10 +2,6 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-import 'dart:typed_data';
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:touch_bar_platform_interface/models/touch_bar_image.dart';
 import 'package:touch_bar_platform_interface/models/identifier.dart';

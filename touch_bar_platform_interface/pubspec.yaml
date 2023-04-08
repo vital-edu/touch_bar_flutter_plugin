@@ -9,7 +9,7 @@ repository: https://github.com/vital-edu/touch_bar_flutter_plugin/
 dependencies:
   flutter:
     sdk: flutter
-  meta: ^1.3.0
+  meta: ^1.9.1
   plugin_platform_interface: ^2.1.4
 
 dev_dependencies:
