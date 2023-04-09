@@ -1,5 +1,5 @@
 ## 0.2.0-alpha.1
-- Add shouldUnselectAfterHit option to Scrubber.
+- Add unselectAfterHit option to Scrubber.
 
 ## 0.1.0-alpha.1
 - Migrate to null safety.
