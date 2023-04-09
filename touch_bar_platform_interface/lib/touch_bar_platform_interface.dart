@@ -32,7 +32,7 @@ abstract class TouchBarPlatform extends PlatformInterface {
   /// Platform-specific plugins should set this with their own platform-specific
   /// class that extends [TouchBarPlatform] when they register themselves.
   static set instance(TouchBarPlatform instance) {
-    PlatformInterface.verifyToken(instance, _token);
+    PlatformInterface.verify(instance, _token);
     _instance = instance;
   }
 

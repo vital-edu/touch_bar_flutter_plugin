@@ -13,6 +13,7 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
 
   var onSelect: String?
   var onHighlight: String?
+  var unselectAfterHit: Bool = false
 
   required init?(identifier: NSTouchBarItem.Identifier, withData itemData: NSDictionary) {
     super.init(identifier: identifier)
@@ -39,6 +40,7 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
 
     let showArrowButtons = itemData["showArrowButtons"] as? Bool ?? false
     let isContinuous = itemData["isContinuous"] as? Bool ?? true
+    self.unselectAfterHit = itemData["unselectAfterHit"] as? Bool ?? false
 
     self.scrubber.showsArrowButtons = showArrowButtons
     self.scrubber.isContinuous = isContinuous
@@ -80,6 +82,8 @@ class TouchBarScrubber: NSCustomTouchBarItem, TouchBarItem, NSTouchBarDelegate {
       self.scrubber.showsArrowButtons = showArrowButtons
     } else if let isContinuous = data["isContinuous"] as? Bool {
       self.scrubber.isContinuous = isContinuous
+    } else if let unselectAfterHit = data["unselectAfterHit"] as? Bool {
+      self.unselectAfterHit = unselectAfterHit
     } else if let children = data["children"] as? [NSDictionary] {
       self.children = children.map{ (child) -> TouchBarScrubberItem in
         switch child["type"] as? String {
@@ -134,6 +138,16 @@ extension TouchBarScrubber: NSScrubberDataSource, NSScrubberDelegate {
   func scrubber(_ scrubber: NSScrubber, didHighlightItemAt highlightedIndex: Int) {
     if let onHighlight = self.onHighlight {
       TouchBarPlugin.channel.invokeMethod(onHighlight, arguments: highlightedIndex)
+    }
+  }
+
+  func didFinishInteracting(with scrubber: NSScrubber) {
+    if self.unselectAfterHit {
+      // unselect the item here guarantee that the item will be unselected when the user only hit the item
+      // and also when they drag the finger until the final selected item.
+      // Because the dragging action runs with animation we need to set the selected item using the
+      // animator: if not, the style of the item would not reflect the unselected state.
+      scrubber.animator().selectedIndex = -1
     }
   }
 }
