@@ -16,7 +16,6 @@ extension on _TouchBarSpaceSize {
       case _TouchBarSpaceSize.flexible:
         return 'NSTouchBarItemIdentifierFlexibleSpace';
     }
-    return 'NSTouchBarItemIdentifierFixedSpaceSmall';
   }
 }
 

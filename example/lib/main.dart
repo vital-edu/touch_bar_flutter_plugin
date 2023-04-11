@@ -264,7 +264,7 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedStyle: ScrubberSelectionStyle.roundedBackground,
         overlayStyle: ScrubberSelectionStyle.outlineOverlay,
         mode: ScrubberMode.fixed,
-        shouldUnselectAfterHit: true,
+        unselectAfterHit: true,
         onSelect: (childId) {
           setState(() => isHighlightingTheColor = false);
           widget.changeThemeColor(
@@ -336,7 +336,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
