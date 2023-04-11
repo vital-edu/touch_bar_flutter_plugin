@@ -35,6 +35,18 @@ class TouchBarImage {
     return TouchBarImage(key: key, data: data);
   }
 
+    static Future<TouchBarImage> loadFromNetwork({
+    required String path,
+    String? key,
+  }) async {
+    assert(path != '');
+    if (key == null) key = path;
+
+    var pathing = Uri.parse(path);
+    ByteData data = await NetworkAssetBundle(Uri.parse(pathing.origin)).load(pathing.path);
+    return TouchBarImage(key: key, data: data);
+  }
+
   /// Create an instance of TouchBarImage with a [key] and [data].
   TouchBarImage({required this.key, required this.data});
 }
