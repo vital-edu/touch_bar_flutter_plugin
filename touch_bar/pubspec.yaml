@@ -1,6 +1,7 @@
 name: touch_bar
 description: A Flutter plugin to interact with the touch bar of supported models of MacBook Pro, providing dynamic contextual controls.
 version: 0.2.0-alpha.1
+publish_to: none
 homepage: https://github.com/vital-edu/touch_bar_flutter_plugin/tree/master/touch_bar
 repository: https://github.com/vital-edu/touch_bar_flutter_plugin/
 
@@ -14,9 +15,15 @@ dependencies:
   flutter:
     sdk: flutter
   touch_bar_platform_interface:
-    path: ../touch_bar_platform_interface
+    git: 
+      url: https://github.com/Lynoma/touch_bar_flutter_plugin.git
+      ref: master
+      path: touch_bar_platform_interface/
   touch_bar_macos: 
-    path: ../touch_bar_macos
+    git: 
+      url: https://github.com/Lynoma/touch_bar_flutter_plugin.git
+      ref: master
+      path: touch_bar_macos/
 dev_dependencies:
   flutter_test:
     sdk: flutter
