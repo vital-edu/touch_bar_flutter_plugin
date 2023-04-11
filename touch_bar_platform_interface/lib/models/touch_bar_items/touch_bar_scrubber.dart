@@ -9,7 +9,9 @@ import '../touch_bar_item.dart';
 import 'touch_bar_scrubber_item.dart';
 
 typedef void OnItemAction(int itemIndex);
+
 enum ScrubberMode { fixed, free }
+
 enum ScrubberSelectionStyle { roundedBackground, outlineOverlay, none }
 
 class TouchBarScrubber extends TouchBarContainer with CallableItem {
@@ -22,14 +24,14 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
     ScrubberSelectionStyle overlayStyle = ScrubberSelectionStyle.none,
     ScrubberMode mode = ScrubberMode.free,
     bool isContinuous = true,
-    bool shouldUnselectAfterHit = false,
+    bool unselectAfterHit = false,
   })  : assert(children.length != 0),
         this._selectedStyle = selectedStyle,
         this._overlayStyle = overlayStyle,
         this._showArrowButtons = showArrowButtons,
         this._mode = mode,
         this._isContinuous = isContinuous,
-        this._shouldUnselectAfterHit = shouldUnselectAfterHit,
+        this._unselectAfterHit = unselectAfterHit,
         super(children: children) {
     this.onSelect = onSelect!;
     this.onHighlight = onHighlight!;
@@ -52,14 +54,14 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
   ScrubberSelectionStyle _overlayStyle;
   ScrubberMode _mode;
   bool _isContinuous;
-  bool _shouldUnselectAfterHit;
+  bool _unselectAfterHit;
 
   bool get showArrowButtons => _showArrowButtons;
   ScrubberSelectionStyle get selectedStyle => _selectedStyle;
   ScrubberSelectionStyle get overlayStyle => _overlayStyle;
   ScrubberMode get mode => _mode;
   bool get isContinuous => _isContinuous;
-  bool get shouldUnselectAfterHit => _shouldUnselectAfterHit;
+  bool get unselectAfterHit => _unselectAfterHit;
 
   set onSelect(OnItemAction newValue) {
     // It is necessary to change only the [onSelect] implementation.
@@ -100,9 +102,9 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
     _isContinuous = newValue;
   }
 
-  set shouldUnselectAfterHit(bool newValue) {
-    this.updateProperty('shouldUnselectAfterHit', newValue: newValue);
-    _shouldUnselectAfterHit = newValue;
+  set unselectAfterHit(bool newValue) {
+    this.updateProperty('unselectAfterHit', newValue: newValue);
+    _unselectAfterHit = newValue;
   }
 
   @override
@@ -119,7 +121,7 @@ class TouchBarScrubber extends TouchBarContainer with CallableItem {
     map['overlayStyle'] = overlayStyle.toString();
     map['mode'] = mode.toString();
     map['isContinuous'] = isContinuous;
-    map['shouldUnselectAfterHit'] = shouldUnselectAfterHit;
+    map['unselectAfterHit'] = unselectAfterHit;
 
     return map;
   }

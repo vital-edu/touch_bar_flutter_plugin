@@ -12,9 +12,7 @@ Besides, in the nearish future, the browsers can add a public API to allow  web 
 
 # Todo
 
-## Planned Releases
-
-### Alpha version
+## Implemented
 
 - [X] TouchBarLabel
 - [x] TouchBarButton
@@ -22,19 +20,12 @@ Besides, in the nearish future, the browsers can add a public API to allow  web 
 - [X] TouchBarScrubber
 - [X] TouchBarSpace: a blank space.
 
-### Beta version
-
-**Estimated release on Q4 2020**
+## Unimplemented
 
 - [ ] TouchBarSlider
 - [ ] TouchBarGroup
 - [ ] TouchBarSegmentedControl
 - [ ] TouchBarColorPicker
-
-### Stable version
-
-**Estimated release on Q1 2021**
-
 - [ ] Widget support
 
 [1]: https://bugs.webkit.org/show_bug.cgi?id=178736
