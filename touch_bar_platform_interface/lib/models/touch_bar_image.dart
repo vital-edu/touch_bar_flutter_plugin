@@ -43,7 +43,7 @@ class TouchBarImage {
     if (key == null) key = path;
 
     var pathing = Uri.parse(path);
-    ByteData data = await NetworkAssetBundle(Uri.parse(pathing.origin)).load(pathing.path);
+    ByteData data = await NetworkAssetBundle(Uri.parse(pathing.origin)).load("${pathing.path}?${pathing.query}");
     return TouchBarImage(key: key, data: data);
   }
 
