@@ -241,7 +241,7 @@ class _MyHomePageState extends State<MyHomePage> {
       path: 'assets/icons/minus.png',
     );
     final menuImage = await TouchBarImage.loadFromNetwork(
-      path: 'https://imgs.search.brave.com/6ZmtxhUTjfuyxzRvPX9Fuy_6WELwYFsBvdJc2NVaTy4/rs:fit:840:683:1/g:ce/aHR0cHM6Ly93d3cu/cG5nZmluZC5jb20v/cG5ncy9tLzQ0NC00/NDQ1MDM2X3BuZy1m/aWxlLXJhbmRvbS1p/Y29uLXBuZy10cmFu/c3BhcmVudC1wbmcu/cG5n',
+      url: Uri.parse('https://picsum.photos/24'),
     );
     final menu2Image = await TouchBarImage.loadFrom(
       path: 'assets/icons/menu-2.png',
