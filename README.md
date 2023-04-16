@@ -6,19 +6,8 @@ This plugin has the goal of provide full support to the MacBook Touch Bar in Flu
 
 For more information about plugins, and how to use them, see https://flutter.dev/platform-plugins/.
 
-# Setup
-
-To load images from network, you need to add permissions to your Info.plist:
-
-```plist
-<key>NSAppTransportSecurity</key>
-<dict>
-  <key>NSAllowsLocalNetworking</key>
-  <true/>
-  <key>NSAllowsArbitraryLoads</key>
-  <true/>
-</dict>
-```
 ## Contributing
 
-This is my first ever Flutter plugin, so if you have any desire to contribute to this project, please reach me or file an issue.
+If you wish to contribute a change to any of the existing plugins in this repo, please review
+our [contribution guide](https://github.com/vital-edu/touch_bar_flutter_plugin/blob/master/CONTRIBUTING.md)
+and open a [pull request](https://github.com/vital-edu/touch_bar_flutter_plugin/pulls).
