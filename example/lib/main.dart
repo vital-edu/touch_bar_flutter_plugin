@@ -240,8 +240,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final minusImage = await TouchBarImage.loadFrom(
       path: 'assets/icons/minus.png',
     );
-    final menuImage = await TouchBarImage.loadFrom(
-      path: 'assets/icons/menu.png',
+    final menuImage = await TouchBarImage.loadFromNetwork(
+      url: Uri.parse('https://picsum.photos/24'),
     );
     final menu2Image = await TouchBarImage.loadFrom(
       path: 'assets/icons/menu-2.png',

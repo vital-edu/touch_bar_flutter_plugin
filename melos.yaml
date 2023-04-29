@@ -1,0 +1,7 @@
+name: touch_bar_plugin
+
+packages:
+  - touch_bar
+  - touch_bar_platform_interface
+  - touch_bar_macos
+  - example
