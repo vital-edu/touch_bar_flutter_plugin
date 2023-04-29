@@ -1,7 +1,6 @@
 name: touch_bar_macos
 description: macOS implementation of the touch_bar plugin.
-version: 0.2.0-alpha.1
-publish_to: none
+version: 0.3.0-alpha.1
 homepage: https://github.com/vital-edu/touch_bar_flutter_plugin/tree/master/touch_bar_macos
 repository: https://github.com/vital-edu/touch_bar_flutter_plugin/
 
@@ -20,7 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  touch_bar_platform_interface: ^0.2.0-alpha.1
+  touch_bar_platform_interface: ^0.3.0-alpha.1
 
 dev_dependencies:
   pedantic: ^1.11.0

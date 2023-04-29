@@ -1,3 +1,6 @@
+## 0.3.0-alpha.1
+- Add option to load image from network using `TouchBarImage.loadFromNetwork`.
+
 ## 0.2.0-alpha.1
 - Add unselectAfterHit option to Scrubber.
 
